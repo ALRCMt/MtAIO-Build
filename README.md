@@ -73,10 +73,95 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 # 系统配置
 
 
+### 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
+
+**1.下载镜像**
+
+pve的镜像官网下载页面：https://www.proxmox.com/en/downloads/category/iso-images-pve
+
+直接下载最新版本即可
+
+**2.制作启动盘**
+
+推荐使用Etcher制作启动盘，你要用Rufus也随便
+
+Etcher下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation\_prepare\_media](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_prepare_media)
+
+**3.安装PVE**
+
+将启动盘插入物理机，重启进入BIOS（进bios哪个键自己网上搜对应主板去），选择从启动盘启动，然后进入安装流程
+
+安装过程中pve会让你设置一个域名，并不关键，按默认即可
+
+安装流程的官方文档：https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_installer
+
+**4.验证安装**
+
+PVE安装完成后，首先在你的物理机屏幕上会显示出服务的IP地址（大概类似[https://192.168.X.XXX:8006/](https://youripaddress:8006/))，注意是https协议，在局域网下打开这个地址，你就可以看到PVE的WEB控制台了
+
+默认用户是root，密码是你安装时设置的，语言设置为中文
+
+
+ <hr>
+
+
+### 安装TrueNAS scale
+
+TrueNAS scale相较于可以直接搭载Docker服务，虽然使用PVE这种虚拟化平台作为底层系统，但是TrueNAS scale能提供更多选择（其实就是我根本没看是core还是scale
+
+**1.下载镜像**
+
+TrueNAS SCALE的下载页面： https://www.truenas.com/download-truenas-community-edition
+
+刚进入时会提示你注册，点击右下角的No Thanks即可看到下载链接了。推荐直接下载最新版本即可。
+
+**2.上传镜像到PVE**
+
+在左侧的树状图中选择pve节点的local存储，在右侧选择ISO镜像，然后点上传，上传你的在上一步下载的TrueNAS scale ISO文件。你可以提前下载后面两节需要用到的镜像，然后集中上传，这可以节省很多时间。
+
+
+
+**3.创建虚拟机**
+
+在pve的web页面的右上角点击创建虚拟机，为TrueNAS创建一个虚拟机。
+
+通用信息配置中勾选右下角的Advanced，并把这个虚拟机设置为开机自启动，然后设置启动顺序为1，等待时间60(秒)，需要注意的是这里的等待时间指的是这台虚拟机开机后等待下一台虚拟机开机的时间，而不是他与上一台虚拟机开机的等待时间。**设置合理的启动顺序和等待时间非常重要**，否则会影响上层服务的存储池挂载。
+
+OS配置页面选择你上传的TrueNAS IOS镜像，并设置操作系统类型为Other（我不确定TrueNAS是不是Solaris OS）
+
+系统配置页面我的配置如下：
+
+**系统磁盘空间我分配了32G，其他配置项没有需要修改的地方
+
+CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置可以获得最小性能损耗。
+
+在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号，下图的意思是将这个虚拟机的4个核绑定给8-11核，也就是能效核（E核）。
+
+查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核。
+**
+内存方面由于TrueNAS推荐使用16G以上内存空间，但是我总共只有16G内存，所以分配了8G，可以正常使用
+
+网络方面我暂时修改默认配置，未来应该可以将网络类型换成VirtlIO以提升性能
+
+进入到确认页面后点击创建就可以了
+
+虚拟机创建成功后，打开他的console应该就可以看到安装提示了。
+
+
+**4.安装TrueNAS core**
+
+推荐教程 https://post.smzdm.com/p/a6d8m6vg/
+
+由于在一些USB设备连接不稳定的情况下，TrueNAS虚拟机会收到USB热插拔的影响而死机，所以安装完成以后打开虚拟机的Options（选项）页，双击Hotplug（热拔插）设置项，把USB选项的勾选去掉。
 
 
 
 
+**5.验证安装**
+
+TrueNAS安装成功后在局域网中使用浏览器打开提示中的地址应该就可以看到TrueNAS的Web页面了。
+
+默认用户名是truenas_admin，密码是在安装时设置
 
 
 
@@ -88,7 +173,29 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 
 # 注意事项
-以下为我实际搭建过程中的一些“小问题”和小巧思
+以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
+
+## 00.PVE安装时卡死
+如果你有一张独立显卡，那么在安装PVE时可能会卡在Loading Driver...，这是因为缺少显卡驱动导致的
+
+
+解决方法：
+- 启动Proxmox VE安装程序
+启动计算机并进入Proxmox VE的引导程序菜单
+- 选择安装选项：
+在引导菜单中，使用箭头键选择“Install Proxmox VE (Terminal UI)”选项
+- 编辑引导参数：
+按下键盘上的 e 键进入编辑模式
+- 修改Linux引导行：
+使用箭头键导航到以 linux 开头的那一行。
+将光标移动到该行的末尾
+- 添加nomodeset参数：
+在该行的末尾，确保与最后一个参数之间有一个空格，然后输入 nomodeset。
+启动安装程序：
+完成编辑后，按下 Ctrl + X 或 F10 键（具体取决于系统提示）以启动安装程序
+
+
+将通过禁用图形化模块解决该问题
 
 
 ## 01.docker安装的网络问题
@@ -206,9 +313,7 @@ sensors-detect
 
 ISA adapter：CPU温度信息
 
-
 acpitz-acpi-0：主板温度信息
-
 
 nvme-pci-0200：nvme固态硬盘温度（如果有安装的话）普通的sata固态硬盘不会显示
 
