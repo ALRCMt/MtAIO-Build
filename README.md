@@ -70,7 +70,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 
 
-# 系统配置（参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)
+# 系统配置（参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)）
 
 
 ### 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
