@@ -90,8 +90,8 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 # 注意事项
 以下为我实际搭建过程中的一些“小问题”和小巧思
 
-## 01.docker安装的网络问题
 
+## 01.docker安装的网络问题
 
 由于国内网络问题，docker使用阿里云镜像源安装
 在ubuntu控制台输入以下命令
@@ -145,7 +145,6 @@ sudo docker run hello-world
 
 ## 02.PVE网卡莫名其妙掉线问题
 
-
 网上看到的原因基本是intel的网卡所致，怀疑是驱动兼容性问题
 在PVE控制台输入以下命令
 
@@ -174,7 +173,6 @@ source /etc/network/interfaces.d/*
 
 ## 03.ssh功能开启问题
 
-
 因为ubuntu虚拟机的控制台与本机粘贴板不互通，又不想安装其它插件，于是打算用windows的cmd远程ssh，但是ubuntu的ssh功能死活打不开，最终发现他妈的命令中是`ssh`而不是`sshd`
 
 
@@ -184,3 +182,38 @@ systemctl start ssh
 # 确认SSH服务已启动，输入以下命令查看SSH服务状态
 systemctl status ssh
 ```
+
+## 04.PVE8 概要面板显示CPU温度
+
+
+通过shell脚本自动配置，省时省力省心
+运行这段指令：
+
+``` shell
+(curl -Lf -o /tmp/temp.sh https://raw.githubusercontent.com/a904055262/PVE-manager-status/main/showtempcpufreq.sh || curl -Lf -o /tmp/temp.sh https://mirror.ghproxy.com/https://raw.githubusercontent.com/a904055262/PVE-manager-status/main/showtempcpufreq.sh) && chmod +x /tmp/temp.sh && /tmp/temp.sh remod
+```
+然后刷新页面就可以了
+
+安装CPU温度检测软件sensors
+``` shell
+apt install lm-sensors -y
+```
+传感器探测
+``` shell 
+sensors-detect
+```
+全部选择yes即可，可能其中一个地方提示 ENTER ，按 回车键 即可
+
+ISA adapter：CPU温度信息
+
+
+acpitz-acpi-0：主板温度信息
+
+
+nvme-pci-0200：nvme固态硬盘温度（如果有安装的话）普通的sata固态硬盘不会显示
+
+最气人的是不知道为什么我这里死活不显示CPU核心温度和主板温度，所以其他我也懒得配置了，平时使用
+``` shell
+sensors
+```
+看一下基本温度就行了
