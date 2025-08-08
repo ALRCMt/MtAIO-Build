@@ -70,7 +70,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 
 
-# 系统配置
+# 系统配置（参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)
 
 
 ### 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
@@ -129,24 +129,36 @@ TrueNAS SCALE的下载页面： https://www.truenas.com/download-truenas-communi
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030601.png)
 
 OS配置页面选择你上传的TrueNAS IOS镜像，并设置操作系统类型为Other
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030634.png)
+
 系统配置页面我的配置如下：
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030653.png)
+
 **系统磁盘空间我分配了32G，其他配置项没有需要修改的地方
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030701.png)
+
 CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置可以获得最小性能损耗。
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030809.png)
+
 *在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号，下图的意思是将这个虚拟机的4个核绑定给8-11核，也就是能效核（E核）*
 
 *查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核*
-*（这里我并不清楚）*
+*（这里我没有使用并不清楚）*
 
 内存方面由于TrueNAS推荐使用16G以上内存空间，但是我总共只有16G内存，所以分配了8G，可以正常使用
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030759.png)
+
 网络方面我暂时修改默认配置，未来应该可以将网络类型换成VirtlIO以提升性能
 
 进入到确认页面后点击创建就可以了
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030836.png)
+
 虚拟机创建成功后，打开他的console应该就可以看到安装提示了。
 
 **4.安装TrueNAS core**
