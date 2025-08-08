@@ -265,7 +265,7 @@ sudo docker run hello-world
 ## 02.PVE网卡莫名其妙掉线问题
 
 网上看到的原因基本是intel的网卡所致，怀疑是驱动兼容性问题
-在PVE控制台输入以下命令
+打开PVE控制台
 
 
 ``` shell
