@@ -76,9 +76,9 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 **主要是以下系统的安装与配置**
 
  - [Proxmox Virtual Environment](#%E5%AE%89%E8%A3%85-pve-proxmox-virtual-environment)
- - [TrueNAS scale](#%E5%AE%89%E8%A3%85truenas-scale)
- - [Ubuntu Server](#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
-> 特殊安装：[Windows10](#%E5%AE%89%E8%A3%85-windowswindows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
+ - [TrueNAS scale](#%E5%AE%89%E8%A3%85-truenas-truenas-scale)
+ - [Ubuntu Server](#%E5%AE%89%E8%A3%85-ubuntu-ubuntu-server)
+> 特殊安装：[Windows10](#%E5%AE%89%E8%A3%85-windows-windows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
 > 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘  
 > 于是我额外安装了win10系统在这块硬盘上，它与PVE是独立的
 
