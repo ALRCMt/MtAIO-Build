@@ -75,7 +75,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 **参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)**
 **主要是以下系统的安装与配置**
 
- - [Proxmox Virtual Environment](main#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
+ - [Proxmox Virtual Environment](/#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
  - [TrueNAS scale](main#%E5%AE%89%E8%A3%85truenas-scale)
  - [Ubuntu Server](main#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
 > 特殊安装：[Windows10](main#%E5%AE%89%E8%A3%85-windowswindows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
