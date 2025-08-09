@@ -31,8 +31,8 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 - 预装TrueNas并配置多种共享服务（NFS、SMB、WebDAV）
 - 预装多种Docker服务（DPanel_docker可视化、Syncthing_文件备份...）
 - 蒲公英异地组网多平台随时使用
-- 额外一套独立windows10系统冗余
-- <del>装一波逼</del>
+- 一套独立的windows10系统冗余
+- <del>装逼</del>
 
 ## 需求与使用场景 [引用自@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E9%9C%80%E6%B1%82%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF)
 
@@ -54,7 +54,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 
 
-v我50
+
 
 
 
@@ -78,13 +78,13 @@ v我50
  - [Proxmox Virtual Environment](/README.md#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
  - [TrueNAS scale](/README.md#%E5%AE%89%E8%A3%85truenas-scale)
  - [Ubuntu Server](/README.md#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
-> 特殊安装：Windows10
+> 特殊安装：[Windows10](/README.md#%E5%AE%89%E8%A3%85-windowswindows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
 > 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘  
-> 于是我上安装了一套额外的win10
+> 于是我额外安装了win10系统在这块硬盘上，它与PVE是独立的
 
 <br />
 
-## 安装 PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
+## 安装 PVE ([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
 
 **1.下载镜像**
 
@@ -118,7 +118,7 @@ PVE安装完成后，首先在你的物理机屏幕上会显示出服务的IP地
 
  <br />
  
-## 安装 TrueNAS([TrueNAS scale](https://www.truenas.com/download-truenas-community-edition/))
+## 安装 TrueNAS ([TrueNAS scale](https://www.truenas.com/download-truenas-community-edition/))
 
 TrueNAS scale相较于可以直接搭载Docker服务，虽然使用PVE这种虚拟化平台作为底层系统，但是TrueNAS scale能提供更多选择（其实就是我根本没看是core还是scale
 
@@ -173,7 +173,7 @@ CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置
 
 虚拟机创建成功后，打开他的console应该就可以看到安装提示了。
 
-**4.安装TrueNAS core**
+**4.安装TrueNAS SCALE**
 
 推荐教程 https://post.smzdm.com/p/a6d8m6vg/
 
@@ -193,7 +193,7 @@ TrueNAS安装成功后在局域网中使用浏览器打开提示中的地址应�
 
 <br />
 
-## 安装 ubuntu([Ubuntu Server](https://cn.ubuntu.com/download/server/step1))
+## 安装 ubuntu ([Ubuntu Server](https://cn.ubuntu.com/download/server/step1))
 
 **1.下载镜像**
 
@@ -231,9 +231,44 @@ Ubuntu Server官方文档的安装指引：https://ubuntu.com/server/docs/instal
 
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20122037.png)
 
+## 安装 Windows ([Windows10](https://www.microsoft.com/zh-cn/software-download/windows10)) *不需要*
+
+**1.下载镜像**
+
+Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/windows10
+
+**2.制作启动盘**
+
+我这里使用微PE来做启动盘
+
+微PE下载地址：https://www.wepe.com.cn/download.html
+
+下载后启动应用写入U盘，再将已下载的iso镜像复制到U盘
+
+**3.安装windows10**
+
+将启动盘插入物理机，开机进入BIOS，选择从启动盘启动
+
+进PE后官方安装教程：https://www.wepe.com.cn/ubook/installtool.html
+
+安装后拔出硬盘，我这里不多赘述了
+
+**4.验证安装**
+
+安装完成后，开机bios调整引导硬盘顺序即可选择启动win10或PVE
+
+<br />
 
 
 
+
+
+
+
+
+# 应用配置
+
+<br />
 
 # 注意事项
 以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
