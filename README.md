@@ -129,7 +129,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 取得一个公网IP对于提升系统易用性的好处是很大的。最直接的好处就是你可以通过DDNS工具来让自己在公网上直接访问到服务，否则你就需要借助各种内网穿透手段达到相同的目的
 
-如果你无法获取公网IPv4地址也不用担心，随着IPv6的发展，现在的主流家用宽带都已经能够分配IPv6地址，而IPv6地址天生就是公网地址。你可以打电话给宽带的运营人员，把家里的光猫设置为桥接模式，并在自己的路由器中打开ipv6功能。通过重启路由器或者等待一段时间（几小时或几天），等到整个局域网中的设备都使用了桥接模式下的新IPv6地址。此时就可以去专门IPv6测试网站上测试一下你的IPv6连通性如何了，如果测试通过了，你大概率就可以顺利使用parsec、ddns等依赖公网ip的工具了。
+如果你无法获取公网IPv4地址也不用担心，随着IPv6的发展，现在的主流家用宽带都已经能够分配IPv6地址，而IPv6地址天生就是公网地址。你可以打电话给宽带的运营人员，把家里的光猫设置为桥接模式，并在自己的路由器中打开ipv6功能。通过重启路由器或者等待一段时间（几小时或几天），等到整个局域网中的设备都使用了桥接模式下的新IPv6地址。此时就可以去专门IPv6测试网站上测试一下你的IPv6连通性如何了，如果测试通过了，你大概率就可以顺利使用parsec、ddns等依赖公网ip的工具了
 
 ### 场地
 
@@ -233,7 +233,7 @@ CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置
 
 <img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030759.png" alt="" width="700px"/>
 
-网络方面我暂时修改默认配置，未来应该可以将网络类型换成VirtlIO以提升性能
+网络方面我暂时修改默认配置，以后应该可以将网络类型换成VirtlIO以提升性能
 
 进入到确认页面后点击创建就可以了
 
@@ -328,48 +328,30 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 <br />
 
 
-
-
-
-
-
-
 # 应用配置
 
-<br />
+## PVE配置
+### 1.设置PVE的APT源
 
-# 注意事项
-以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
-<br />
+PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我们个人使用需要将其换成国内的软件源
 
-## 00.PVE安装时卡死
-如果你有一张独立显卡，那么在安装PVE时可能会卡在Loading Driver...，这是因为缺少显卡驱动导致的
+教程地址：[设置PVE的APT源](https://github.com/firemakergk/aquar-build-helper/blob/master/details/%E8%AE%BE%E7%BD%AEPVE%E7%9A%84apt%E6%BA%90.md) 
 
+## TrueNAS配置
+### 1.实现硬盘直通
+教程地址：[pve硬盘直通](https://github.com/firemakergk/aquar-build-helper/blob/master/details/pve%E7%A1%AC%E7%9B%98%E7%9B%B4%E9%80%9A.md)
+> 取消硬盘直通的方法  
+> pve的web界面选择虚拟机的“硬件”，选择指定硬盘，点击“分离”
 
-解决方法：
-- 启动Proxmox VE安装程序
-启动计算机并进入Proxmox VE的引导程序菜单
-- 选择安装选项：
-在引导菜单中，使用箭头键选择“Install Proxmox VE (Terminal UI)”选项
-- 编辑引导参数：
-按下键盘上的 e 键进入编辑模式
-- 修改Linux引导行：
-使用箭头键导航到以 linux 开头的那一行。
-将光标移动到该行的末尾
-- 添加nomodeset参数：
-在该行的末尾，确保与最后一个参数之间有一个空格，然后输入 nomodeset。
-启动安装程序：
-完成编辑后，按下 Ctrl + X 或 F10 键（具体取决于系统提示）以启动安装程序
+### 2.配置存储池及用户设置
+教程：  
+[【司波图】TrueNAS SCALE教程，第一章——简单用起来](https://www.bilibili.com/video/BV1cK411z7dx/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
+## Ubuntu配置
+### 1.安装docker *最折磨人的一集*
 
-将通过禁用图形化模块解决该问题
-
-
-## 01.docker安装的网络问题
-
-由于国内网络问题，docker使用阿里云镜像源安装
-在ubuntu控制台输入以下命令
-
+由于国内网络问题（最折磨），docker使用阿里云镜像源安装
+在ubuntu控制台输入以下命令 *粘贴板不互通无法复制？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
 
 ``` shell
 # 一、准备工作
@@ -415,6 +397,34 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 # 验证 Docker 安装
 sudo docker run hello-world
 ```
+ 
+<br />
+
+# 注意事项
+以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
+<br />
+
+## 01.PVE安装时卡死
+如果你有一张独立显卡，那么在安装PVE时可能会卡在Loading Driver...，这是因为缺少显卡驱动导致的
+
+
+解决方法：
+- 启动Proxmox VE安装程序
+启动计算机并进入Proxmox VE的引导程序菜单
+- 选择安装选项：
+在引导菜单中，使用箭头键选择“Install Proxmox VE (Terminal UI)”选项
+- 编辑引导参数：
+按下键盘上的 e 键进入编辑模式
+- 修改Linux引导行：
+使用箭头键导航到以 linux 开头的那一行。
+将光标移动到该行的末尾
+- 添加nomodeset参数：
+在该行的末尾，确保与最后一个参数之间有一个空格，然后输入 nomodeset。
+启动安装程序：
+完成编辑后，按下 Ctrl + X 或 F10 键（具体取决于系统提示）以启动安装程序
+
+
+将通过禁用图形化模块解决该问题
 
 
 ## 02.PVE网卡莫名其妙掉线问题
