@@ -329,7 +329,7 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 
 
 # 应用配置 
-> 小提示： 
+> 小提示：  
 > 在Linux系统中 Ctrl + Shift + C 复制； Ctrl + Shift + V: 粘贴  
 > 在vi/vim编辑器中，`:wq`是保存并退出，`:q!`是不保存退出  
 > 在nano编辑器中Ctrl + W快捷键是查找文本，但是与web界面关闭页面冲突，所以可以用Ctrl + Q代替，Ctrl + X 是退出，会询问是否保存  
