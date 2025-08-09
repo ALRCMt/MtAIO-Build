@@ -351,7 +351,8 @@ PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我�
 ### 1.安装docker *最折磨人的一集*
 
 由于国内网络问题（最折磨），docker使用阿里云镜像源安装
-在ubuntu控制台输入以下命令 *粘贴板不互通无法复制？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
+在ubuntu控制台输入以下命令  
+*粘贴板不互通无法复制？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
 
 ``` shell
 # 一、准备工作
@@ -397,7 +398,24 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 # 验证 Docker 安装
 sudo docker run hello-world
 ```
- 
+
+### 2.安装docker可视化工具DPanel
+
+DPanel是一款**支持中文**的docker可视化插件  
+使用如下命令下载Dpanel lite版镜像  
+官方教程：https://dpanel.cc/install/docker
+``` shell
+docker pull dpanel/dpanel:lite
+```
+之后使用如下命令运行Dpanel容器
+``` shell
+docker run -d --name dpanel --restart=always \
+ -p 80:80 -p 443:443 -p 8807:8080 -e APP_NAME=dpanel \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ -v /home/dpanel:/dpanel dpanel/dpanel:latest
+```
+使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
+
 <br />
 
 # 注意事项
