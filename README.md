@@ -78,8 +78,9 @@ v我50
  - [Proxmox Virtual Environment](/README.md#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
  - [TrueNAS scale](/README.md#%E5%AE%89%E8%A3%85truenas-scale)
  - [Ubuntu Server](/README.md#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
-> 特殊安装：  
-> 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘，于是在服务器上安装了一套额外的win10
+> 特殊安装：Windows10
+> 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘  
+> 于是我上安装了一套额外的win10
 
 <br />
 
