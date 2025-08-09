@@ -541,3 +541,6 @@ sensors
 > CPUTIN是主板监的CPU温度  
 > Tctl/Tdie是CPU为降温虚标的高温，目的是使风扇转速加快  
 > 详细见 https://ngabbs.com/read.php?tid=42423467&rand=200
+
+<img src="./photos/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20224901.png" alt="" width="700px"/>
+
