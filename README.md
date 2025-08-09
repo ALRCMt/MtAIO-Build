@@ -25,15 +25,13 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 [![QQ](https://img.shields.io/badge/QQ-ALRCMt-white.svg)](https://qm.qq.com/q/4uVkK9nRPW?personal_qrcode_source=3)
 [![邮箱](https://img.shields.io/badge/邮箱-b122330417@163.com-blue.svg)](mailto:b122330417@163.com)
 
-
-
-
 ## 核心功能
 
 - Proxmox VE虚拟化多系统
-- 预装TrueNas并配置好多种共享服务（NFS、SMB、WebDAV）
+- 预装TrueNas并配置多种共享服务（NFS、SMB、WebDAV）
 - 预装多种Docker服务（DPanel_docker可视化、Syncthing_文件备份...）
 - 蒲公英异地组网多平台随时使用
+- 额外一套独立windows10系统冗余
 - <del>装一波逼</del>
 
 ## 需求与使用场景 [引用自@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E9%9C%80%E6%B1%82%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF)
@@ -46,7 +44,9 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 - 这些问题是否有其他更便利的解决方式？
 - 这套系统的特性是否适合你长期使用？
 
-如果这些问题的答案都支持你搭建这套系统，那么请阅读接下来的内容，祝你好运。
+如果这些问题的答案都支持你搭建这套系统，那么请阅读接下来的内容，祝你好运
+
+<br />
 
 # 硬件配置
 
@@ -68,20 +68,22 @@ v我50
 
 
 
-
+<br />
 
 # 系统配置 
 
 **参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)**
-**主要包含以下系统的安装与配置**
+**主要是以下系统的安装与配置**
 
  - [Proxmox Virtual Environment](/README.md#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
  - [TrueNAS scale](/README.md#%E5%AE%89%E8%A3%85truenas-scale)
- - Ubuntu Server
+ - [Ubuntu Server](/README.md#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
+> 特殊安装：  
+> 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘，于是在服务器上安装了一套额外的win10
 
+<br />
 
-
-## 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
+## 安装 PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
 
 **1.下载镜像**
 
@@ -103,18 +105,19 @@ Etcher下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#inst
 
 安装流程的官方文档：https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_installer
 
+安装过程中卡死？解决方法：[PVE安装时卡死](/README.md#00pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
+
 **4.验证安装**
 
 PVE安装完成后，首先在你的物理机屏幕上会显示出服务的IP地址（大概类似[https://192.168.X.XXX:8006/](https://youripaddress:8006/))，注意是https协议，在局域网下打开这个地址，你就可以看到PVE的WEB控制台了
 
-
+![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20110507.png)
 
 默认用户是root，密码是你安装时设置的，语言设置为中文
 
  <br />
- <br />
  
-## 安装TrueNAS scale
+## 安装 TrueNAS([TrueNAS scale](https://www.truenas.com/download-truenas-community-edition/))
 
 TrueNAS scale相较于可以直接搭载Docker服务，虽然使用PVE这种虚拟化平台作为底层系统，但是TrueNAS scale能提供更多选择（其实就是我根本没看是core还是scale
 
@@ -133,45 +136,47 @@ TrueNAS SCALE的下载页面： https://www.truenas.com/download-truenas-communi
 
 在pve的web页面的右上角点击创建虚拟机，为TrueNAS创建一个虚拟机。
 
-通用信息配置中勾选右下角的Advanced，并把这个虚拟机设置为开机自启动，然后设置启动顺序为1，等待时间60(秒)，需要注意的是这里的等待时间指的是这台虚拟机开机后等待下一台虚拟机开机的时间，而不是他与上一台虚拟机开机的等待时间。**设置合理的启动顺序和等待时间非常重要**，否则会影响上层服务的存储池挂载。
+通用信息配置中勾选右下角的Advanced，并把这个虚拟机设置为开机自启动，然后设置启动顺序为1，等待时间60(秒)，需要注意的是这里的等待时间指的是这台虚拟机开机后等待下一台虚拟机开机的时间，而不是他与上一台虚拟机开机的等待时间。**设置合理的启动顺序和等待时间非常重要**，否则会影响上层服务的存储池挂载
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030601.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030601.png" alt="" width="700px"/>
 
 操作系统配置页面选择你上传的TrueNAS IOS镜像，并设置操作系统类型为Other
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030634.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030634.png" alt="" width="700px"/>
 
 系统配置页面我的配置如下：
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030653.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030653.png" alt="" width="700px"/>
 
 系统磁盘空间我分配了32G，其他配置项没有需要修改的地方
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030701.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030701.png" alt="" width="700px"/>
 
 CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置可以获得最小性能损耗
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030809.png)
+> *在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号*  
+> *查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核*  
+> *（这里我并没有这么配置，所以我不太清楚具体配置）*
 
-> *在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号，下图的意思是将这个虚拟机的4个核绑定给8-11核，也就是能效核（E核）  
-> *查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核*
-> *（这里我没有使用并不清楚）*
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030809.png" alt="" width="700px"/>
 
 内存方面由于TrueNAS推荐使用16G以上内存空间，但是我总共只有16G内存，所以分配了8G，可以正常使用
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030759.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030759.png" alt="" width="700px"/>
 
 网络方面我暂时修改默认配置，未来应该可以将网络类型换成VirtlIO以提升性能
 
 进入到确认页面后点击创建就可以了
 
-![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030836.png)
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030836.png" alt="" width="700px"/>
 
 虚拟机创建成功后，打开他的console应该就可以看到安装提示了。
 
 **4.安装TrueNAS core**
 
 推荐教程 https://post.smzdm.com/p/a6d8m6vg/
+
+官方文档：https://www.truenas.com/docs/scale/25.04/gettingstarted/install/
 
 由于在一些USB设备连接不稳定的情况下，TrueNAS虚拟机会收到USB热插拔的影响而死机，所以安装完成以后打开虚拟机的Options（选项）页，双击Hotplug（热拔插）设置项，把USB选项的勾选去掉。
 
@@ -185,9 +190,45 @@ TrueNAS安装成功后在局域网中使用浏览器打开提示中的地址应�
 默认用户名是truenas_admin，密码是在安装时设置
 
 
+<br />
+
+## 安装 ubuntu([Ubuntu Server](https://cn.ubuntu.com/download/server/step1))
+
+**1.下载镜像**
+
+由于我们使用ubuntu的作用主要是承载各种服务而非直接与之交互，所以选择没有GUI的Ubuntu Server版本。
+
+Ubuntu Server下载页面：https://cn.ubuntu.com/download/server/step1
+
+选择最新的LTS版本即可
+
+**2.上传镜像**
+
+与TrueNAS章节的上传操作一致，不再重复
+
+**3.创建虚拟机**
+
+与TrueNAS章节的创建操作类似，内存我分配了4GB
 
 
+**4.安装Ubuntu Server**
 
+推荐教程：https://blog.csdn.net/FungLeo/article/details/148370828
+
+Ubuntu Server官方文档的安装指引：https://ubuntu.com/server/docs/install/step-by-step
+
+安装时有几点需要注意：
+
+1.  Mirror设置时，Ubuntu现在默认为国内源地址，如果不是的话请更换成你所在的地区最稳定的地址
+2.  SSH设置时勾选Install SSH Server
+3.  Snaps页面不要选择任何软件进行安装
+4.  在Ubuntu安装开始执行一段时间后（大概几分钟），会开始拉取软件源信息，没必要等待，直接选择"跳过并重启"即可
+
+**5.验证安装**
+
+在PVE中找到Ubuntu的虚拟机，并进入Console界面，多按动几次回车键，如果看到类似的提示，则输入你安装时设置的用户名和密码。如果登录成功则说明系统正常运行了
+
+![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20122037.png)
 
 
 
@@ -195,6 +236,7 @@ TrueNAS安装成功后在局域网中使用浏览器打开提示中的地址应�
 
 # 注意事项
 以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
+<br />
 
 ## 00.PVE安装时卡死
 如果你有一张独立显卡，那么在安装PVE时可能会卡在Loading Driver...，这是因为缺少显卡驱动导致的
