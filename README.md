@@ -337,6 +337,18 @@ PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我�
 
 教程地址：[设置PVE的APT源](https://github.com/firemakergk/aquar-build-helper/blob/master/details/%E8%AE%BE%E7%BD%AEPVE%E7%9A%84apt%E6%BA%90.md) 
 
+## 旁路由R300A配置
+### 1.开启路由器的WAN口转发
+打开贝锐蒲公英后台：https://www.pgybox.com/zh/intelligentNetwork/forwardingSettings  
+找到转发设置，打开WAN口入站路由转发
+
+### 2.配置异地组网
+打开蒲公英管理平台：https://console.sdwan.oray.com/zh/main
+创建网络，添加硬件成员R300A  
+添加网络成员，然后在需要连接的设备上下载贝锐蒲公英客户端，登录添加的网络成员账号，即可开启组网
+
+贝锐蒲公英客户端下载：https://pgy.oray.com/download#visitor
+
 ## TrueNAS配置
 ### 1.实现硬盘直通
 教程地址：[pve硬盘直通](https://github.com/firemakergk/aquar-build-helper/blob/master/details/pve%E7%A1%AC%E7%9B%98%E7%9B%B4%E9%80%9A.md)
