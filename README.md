@@ -1,4 +1,5 @@
 # MtHMR 系统搭建指南
+
 # 整体介绍
 
 MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是跑在Proxmox VE虚拟化平台上的若干个虚拟机以及其中应用的服务器，其源于两年前欲求文件存储与共享的突发奇想，归功于<del>强大的行动力</del>（大嘘）
@@ -19,7 +20,10 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 [@科技宅小明](https://space.bilibili.com/5626102?spm_id_from=333.1387.favlist.content.click)
 
 
+如果你有疑问，请联系我
 
+[![QQ](https://img.shields.io/badge/QQ-ALRCMt-white.svg)](https://qm.qq.com/q/4uVkK9nRPW?personal_qrcode_source=3)
+[![邮箱](https://img.shields.io/badge/邮箱-b122330417@163.com-blue.svg)](mailto:b122330417@163.com)
 
 
 
@@ -27,16 +31,12 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 ## 核心功能
 
 - Proxmox VE虚拟化多系统
-
 - 预装TrueNas并配置好多种共享服务（NFS、SMB、WebDAV）
-
 - 预装多种Docker服务（DPanel_docker可视化、Syncthing_文件备份...）
-
 - 蒲公英异地组网多平台随时使用
-
 - <del>装一波逼</del>
 
-## 需求与使用场景（[引用自@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E9%9C%80%E6%B1%82%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF)）
+## 需求与使用场景 [引用自@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E9%9C%80%E6%B1%82%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF)
 
 从零纯手工搭建系统的过程很长，因为这是长期沉淀下来的，有很多细节蕴含在其中。然而我更想强调的是，当你走完所有这些路途以后，你和这套系统磨合才真正开始。**一套软件系统是生长在使用者的需求上的，合理且充分的需求就像土壤，是软件系统存活乃至成长的必要条件。**
 
@@ -70,10 +70,18 @@ v我50
 
 
 
-# 系统配置（参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)）
+# 系统配置 
+
+**参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)**
+**主要包含以下系统的安装与配置**
+
+ - [Proxmox Virtual Environment](/README.md#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
+ - [TrueNAS scale](/README.md#%E5%AE%89%E8%A3%85truenas-scale)
+ - Ubuntu Server
 
 
-### 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
+
+## 安装PVE([Proxmox Virtual Environment](https://www.proxmox.com/en/downloads/category/proxmox-virtual-environment))
 
 **1.下载镜像**
 
@@ -99,13 +107,14 @@ Etcher下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#inst
 
 PVE安装完成后，首先在你的物理机屏幕上会显示出服务的IP地址（大概类似[https://192.168.X.XXX:8006/](https://youripaddress:8006/))，注意是https协议，在局域网下打开这个地址，你就可以看到PVE的WEB控制台了
 
+
+
 默认用户是root，密码是你安装时设置的，语言设置为中文
 
-
- <hr>
-
-
-### 安装TrueNAS scale
+ <br />
+ <br />
+ 
+## 安装TrueNAS scale
 
 TrueNAS scale相较于可以直接搭载Docker服务，虽然使用PVE这种虚拟化平台作为底层系统，但是TrueNAS scale能提供更多选择（其实就是我根本没看是core还是scale
 
@@ -144,10 +153,9 @@ CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置
 
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030809.png)
 
-*在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号，下图的意思是将这个虚拟机的4个核绑定给8-11核，也就是能效核（E核）*
-
-*查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核*
-*（这里我没有使用并不清楚）*
+> *在8.x版本的系统中，如果使用的是混合架构的CPU如12代i7，可以直接在界面的CPU Affinity设置中指定绑定的CPU序号，下图的意思是将这个虚拟机的4个核绑定给8-11核，也就是能效核（E核）  
+> *查看CPU多核类别的方法是使用`lscpu -e`命令，可以看到E核的MAXMHZ会低于P核*
+> *（这里我没有使用并不清楚）*
 
 内存方面由于TrueNAS推荐使用16G以上内存空间，但是我总共只有16G内存，所以分配了8G，可以正常使用
 
@@ -171,6 +179,7 @@ CPU分配了2核，另外CPU类型选择了host，在单机情况下这样设置
 **5.验证安装**
 
 TrueNAS安装成功后在局域网中使用浏览器打开提示中的地址应该就可以看到TrueNAS的Web页面了
+
 ![](./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20030930.png)
 
 默认用户名是truenas_admin，密码是在安装时设置
