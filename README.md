@@ -1,5 +1,5 @@
 # MtHMR 系统搭建指南
-本指南作为我自己摸索学习的记录，借鉴了https://github.com/firemakergk/aquar-build-helper的内容
+本指南作为我自己摸索学习的记录，借鉴了https://github.com/firemakergk/aquar-build-helper 的内容
 # 整体介绍
 
 MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是跑在Proxmox VE虚拟化平台上的若干个虚拟机以及其中应用的服务器，其源于两年前欲求文件存储与共享的突发奇想，归功于<del>强大的行动力</del>（大嘘）
