@@ -347,6 +347,8 @@ PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我�
 创建网络，添加硬件成员R300A  
 添加网络成员，然后在需要连接的设备上下载贝锐蒲公英客户端，登录添加的网络成员账号，即可开启组网
 
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20150111.png" alt="" width="700px"/>
+
 贝锐蒲公英客户端下载：https://pgy.oray.com/download#visitor
 
 ## TrueNAS配置
