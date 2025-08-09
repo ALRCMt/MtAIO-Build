@@ -537,8 +537,8 @@ sensors
 > 后续：已破案，原来是AMD的U不会显示各核心温度  
 > 如果你是amd的CPU，当输入`sensors`后如下图  
 > SYSTIN是主板南桥温度  
-> AUXTIN是电源温度（前提是你有传感器，否则数据无效  
-> CPUTIN是主板监的CPU温度  
+> AUXTIN是电源温度（前提是你有传感器，否则数据无效）  
+> CPUTIN是主板监控的CPU温度  
 > Tctl/Tdie是CPU为降温虚标的高温，目的是使风扇转速加快  
 > 详细见 https://ngabbs.com/read.php?tid=42423467&rand=200
 
