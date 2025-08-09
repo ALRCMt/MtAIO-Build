@@ -75,10 +75,10 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 **参考[@生火人firemaker](https://github.com/firemakergk/aquar-build-helper?tab=readme-ov-file#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85)**
 **主要是以下系统的安装与配置**
 
- - [Proxmox Virtual Environment](##%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
- - [TrueNAS scale](##%E5%AE%89%E8%A3%85truenas-scale)
- - [Ubuntu Server](##%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
-> 特殊安装：[Windows10](##%E5%AE%89%E8%A3%85-windowswindows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
+ - [Proxmox Virtual Environment](main#%E5%AE%89%E8%A3%85pveproxmox-virtual-environment)
+ - [TrueNAS scale](main#%E5%AE%89%E8%A3%85truenas-scale)
+ - [Ubuntu Server](main#%E5%AE%89%E8%A3%85-ubuntuubuntu-server)
+> 特殊安装：[Windows10](main#%E5%AE%89%E8%A3%85-windowswindows10-%E4%B8%8D%E9%9C%80%E8%A6%81)  
 > 因为我的笔记本坏了一段时间，又没有别的电脑，刚好有一块多的m.2硬盘  
 > 于是我额外安装了win10系统在这块硬盘上，它与PVE是独立的
 
@@ -106,7 +106,7 @@ Etcher下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#inst
 
 安装流程的官方文档：https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_installer
 
-安装过程中卡死？解决方法：[PVE安装时卡死](##00pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
+安装过程中卡死？解决方法：[PVE安装时卡死](main#00pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
 
 **4.验证安装**
 
