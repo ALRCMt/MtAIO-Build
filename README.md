@@ -539,7 +539,7 @@ sudo nano /etc/fstab # 设置 NFS 文件在系统启动时自动挂载
 
 # 然后使用以下格式在 /etc/fstab 文件中添加条目
 
-[NFS _IP]:[NFS_export] [Local_mountpoint] nfs defaults 0 0   # NFS 服务器：目录挂载点 nfs 默认 0 0
+[NFS _IP]:[NFS_export] [Local_mountpoint] nfs defaults 0 0   # NFS 服务器:服务器共享目录 目录挂载点 nfs 默认 0 0
 
 # 然后保存并退出
 ```
