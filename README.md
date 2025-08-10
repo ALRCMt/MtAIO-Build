@@ -353,7 +353,8 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 > 小提示：  
 > 在Linux系统中 Ctrl + Shift + C 复制； Ctrl + Shift + V: 粘贴  
 > 在vi/vim编辑器中，`:wq`是保存并退出，`:q!`是不保存退出  
-> 在nano编辑器中Ctrl + W快捷键是查找文本，但是与web界面关闭页面冲突，所以可以用Ctrl + Q代替，Ctrl + X 是退出，会询问是否保存  
+> 在nano编辑器中Ctrl + W快捷键是查找文本，但是与web界面关闭页面冲突，所以可以用Ctrl + Q代替，Ctrl + X 是退出，会询问是否保存
+> sudo 不能提升cd的权限
 ## PVE配置
 ### 1.设置PVE的APT源
 
@@ -406,7 +407,41 @@ Suites: trixie
 Components: pve-no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ```
+### 2.网络唤醒 WOL
 
+需要在 BIOS 中开启 WOL 功能，各主板设置方法不同，自己上网查去  
+默认情况下，PVE 的网络唤醒是禁用的，需要手动打开才可以网络唤醒
+
+安装 ethtool 工具
+``` shell
+apt install ethtool
+```
+查看网卡信息
+``` shell
+
+ethtool [网卡名称] # 观察输出结果Supports Wake-on 与 Wake-on
+
+# supports wake-on 判断该网卡是否支持 WOL 唤醒，若值为 pumbg 则表示支持 WOL
+# Wake-on 值为 d 则表示 WOL 禁用状态，g 则为开启，PVE 默认为 d
+```
+开启 WOL 网络唤醒
+
+``` shell
+ethtool -s eth0 wol g
+```
+由于每次开机时，Wake-on 的值都会重置为 d，因此需要在开机时自动运行开启 WOL 的命令
+
+编辑 /etc/rc.local 文件
+``` shell
+#!/bin/bash
+ethtool -s eth0 wol g
+​
+exit 0
+``` 
+赋予运行权限
+``` shell
+chmod +x /etc/rc.local
+```
 ## 旁路由R300A配置
 ### 1.开启路由器的WAN口转发
 打开贝锐蒲公英后台：https://www.pgybox.com/zh/intelligentNetwork/forwardingSettings  
