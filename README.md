@@ -48,6 +48,26 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 <br />
 
+# 目录
+ 1.  [硬件选择](https://github.com/ALRCMt/MtHMR-Build/tree/main?tab=readme-ov-file#%E7%A1%AC%E4%BB%B6%E9%80%89%E6%8B%A9)
+ 2.  其他条件
+ 3.  系统配置
+     1. 安装 PVE (Proxmox Virtual Environment)
+     2. 安装 TrueNAS (TrueNAS scale)
+     3. 安装 ubuntu (Ubuntu Server)
+     4. 安装 Windows (Windows10) _不需要_
+ 4.  应用配置
+     1. PVE配置
+     2. 旁路由R300A配置
+     3. TrueNAS配置
+     4. Ubuntu配置
+ 5.  注意事项
+     1. PVE安装时卡死
+     2. PVE网卡莫名其妙掉线问题
+     3. ssh功能开启问题
+     4. PVE8 概要面板显示CPU温度
+     5. ubuntu空间占用不足
+
 # 硬件选择
 
 **这里全部都是我的硬件配置，可以提供参考**
