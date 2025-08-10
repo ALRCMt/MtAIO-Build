@@ -20,7 +20,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 [@科技宅小明](https://space.bilibili.com/5626102?spm_id_from=333.1387.favlist.content.click)
 
 
-如果你有疑问，请联系我
+如果你有疑问，或者发现了我的错误，请联系我
 
 [![QQ](https://img.shields.io/badge/QQ-ALRCMt-white.svg)](https://qm.qq.com/q/4uVkK9nRPW?personal_qrcode_source=3)
 [![邮箱](https://img.shields.io/badge/邮箱-b122330417@163.com-blue.svg)](mailto:b122330417@163.com)
@@ -385,6 +385,40 @@ PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我�
 教程：  
 [【司波图】TrueNAS SCALE教程，第一章——简单用起来](https://www.bilibili.com/video/BV1cK411z7dx/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
+### 3.SMB共享配置
+在TrueNAS的Web页面上进入共享页面  
+打开Windows（SMB）共享服务   
+_确认在用户配置创建的用户勾选了SMB用户选项_
+添加SMB共享，选择共享目录  
+
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-10%20133538.png" alt="" width="700px"/>
+
+在同一个局域网中，在文件管理器显示各个硬盘页面的空白处右键，选择“添加一个网络位置”
+
+<img src="./photo/屏幕截图 2025-08-10 133618.png" alt="" width="700px"/>
+
+一番下一步后会让你输入地址，填写truenas的服务地址然后又是一番下一步，最后会询问你用户名和密码  
+这时候就填写你在TrueNas上新创建的用户的名称和密码即可
+
+<img src="./photo/屏幕截图 2025-08-10 134332.png" alt="" width="400px"/>
+<img src="./photo/屏幕截图 2025-08-10 134349.png" alt="" width="300px"/> 
+
+ -  小提示：地址从你的存储池开始计算，如我这里就是/Mt 而不是 /mnt/MtData/Mt  
+
+最终结果：
+
+<img src="./photo/屏幕截图 2025-08-10 134441.png" alt="" width="300px"/>
+
+### 4.NFS共享配置 
+
+> _注意！！！_  
+> _这里请配合Ubuntu挂载使用_
+   
+同上，打开UNIX（NFS）共享服务  
+添加NFS共享，选择共享目录  
+如果想方便一点，选择配置服务，勾选允许非 root 挂载  
+之后操作在Ubuntu系统完成
+
 ## Ubuntu配置
 ### 1.安装docker *最折磨人的一集*
 
@@ -454,7 +488,87 @@ docker run -d --name dpanel --restart=always \
 ```
 使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
-### 3.docker部署Resilio Sync
+> 请注意，因为国内网络问题，请在DPanel内选择**仓库管理**，编辑Docker Hub仓库  
+> 添加加速地址，下面有推荐加速地址  
+
+<img src="./photo/屏幕截图 2025-08-10 151557.png" alt="" width="700px"/>
+
+### 3.数据卷的创建、挂载、查看、删除
+
+相比较挂载目录，挂载数据卷可以使容器内外文件同步
+如果你偏爱用命令行操作，那么如下  
+``` shell
+docker volume create my-vol # 创建一个数据卷
+
+docker volume ls # 查看所有的数据卷
+
+docker volume inspect my-vol # 查看指定数据卷的信息
+
+docker volume rm my-vol # 删除数据卷
+```
+将数据卷挂载在容器的固定目录
+
+``` shell
+docker run -it -v [数据卷名字]:[容器目录] [镜像名称]
+```
+如果你想用图形化操作，如下
+打开DPanel的web页面，选择储存管理  
+
+<img src="./photo/屏幕截图 2025-08-10 145725.png" alt="" width="700px"/>
+
+然后创建储存卷，名称随便，其它默认，然后确定
+
+<img src="./photo/屏幕截图 2025-08-10 145806.png" alt="" width="300px"/>
+
+### 4.将TrueNAS存储池挂载到指定目录
+> _注意！！！ 配合[NFS共享配置](#4nfs%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE)、[数据卷的创建挂载](#3%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9A%84%E5%88%9B%E5%BB%BA%E6%8C%82%E8%BD%BD%E6%9F%A5%E7%9C%8B%E5%88%A0%E9%99%A4)使用，将存储池挂到数据卷的挂载点_
+``` shell
+sudo apt update # 更新系统存储库索引
+sudo apt install nfs-common # 安装 NFS 客户端包
+
+sudo mount [NFS _IP]:/[NFS_export] [Local_mountpoint] # 将NFS服务器共享目录挂载到客户端的挂载点目录
+
+# NFS_IP 是 NFS 服务器的 IP 地址
+# NFS_export 是 NFS 服务器上的共享目录
+# Local_mountpoint 是客户端系统上的挂载点目录
+
+mount | grep nfs # 查看已挂载的NFS共享目录，确认挂载成功
+
+sudo nano /etc/fstab # 设置 NFS 文件在系统启动时自动挂载
+
+# 然后使用以下格式在 /etc/fstab 文件中添加条目
+
+[NFS _IP]:[NFS_export] [Local_mountpoint] nfs defaults 0 0   # NFS 服务器：目录挂载点 nfs 默认 0 0
+
+# 然后保存并退出
+```
+
+卸载 NFS 挂载
+
+``` shell
+umount [mount_point] # [mount_point]是挂载目录
+
+# 如果该目录正在被使用或者已经被其他进程打开，你可能会收到一个错误消息。在这种情况下，可以尝试使用以下命令强制取消挂载
+
+umount -f [mount_point]
+
+mount | grep nfs # 最后，检查挂载是否成功取消
+```
+
+### 5.docker部署Resilio Sync
+通过DPanel图形化操作，打开容器列表，创建容器，然后拉取镜像，镜像地址`resilio/sync:latest`
+
+<img src="./photo/屏幕截图 2025-08-10 151320.png" alt="" width="600px"/>
+<img src="./photo/屏幕截图 2025-08-10 152541.png" alt="" width="600px"/>
+等待镜像拉取完成，大部分设置已经设置好了
+只需要绑定端口，如图
+
+<img src="./photo/屏幕截图 2025-08-10 152732.png" alt="" width="500px"/>
+
+然后挂载数据卷，选择添加映射目录  
+左侧填你创建的数据卷名称，右侧填容器内目录，目录最好是/mnt/sync/folders/*，不然可能会没权限
+
+<img src="./photo/屏幕截图 2025-08-10 152741.png" alt="" width="500px"/>
 
 <br />
 
