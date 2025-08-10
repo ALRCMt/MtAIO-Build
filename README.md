@@ -289,9 +289,10 @@ Ubuntu Server官方文档的安装指引：https://ubuntu.com/server/docs/instal
 安装时有几点需要注意：
 
 1.  Mirror设置时，Ubuntu现在默认为国内源地址，如果不是的话请更换成你所在的地区最稳定的地址
-2.  SSH设置时勾选Install SSH Server
-3.  Snaps页面不要选择任何软件进行安装
-4.  在Ubuntu安装开始执行一段时间后（大概几分钟），会开始拉取软件源信息，没必要等待，直接选择"跳过并重启"即可
+2.  ubuntu安装默认只占用一半空间，需自己勾选上 _[已经安装完成？补救方法](#05ubuntu%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E4%B8%8D%E8%B6%B3)_
+3.  SSH设置时勾选Install SSH Server
+4.  Snaps页面不要选择任何软件进行安装
+5.  在Ubuntu安装开始执行一段时间后（大概几分钟），会开始拉取软件源信息，没必要等待，直接选择"跳过并重启"即可
 
 **5.验证安装**
 
@@ -504,7 +505,6 @@ systemctl status ssh
 
 ## 04.PVE8 概要面板显示CPU温度
 
-
 通过shell脚本自动配置，省时省力省心
 运行这段指令：
 
@@ -542,5 +542,20 @@ sensors
 > Tctl/Tdie是CPU为降温虚标的高温，目的是使风扇转速加快  
 > 详细见 https://ngabbs.com/read.php?tid=42423467&rand=200
 
-<img src="./photos/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20224901.png" alt="" width="700px"/>
+<img src="./photo/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20224901.png" alt="" width="700px"/>
+
+## 05.ubuntu空间占用不足
+
+在安装ubuntu server的过程中，默认只占用一半磁盘空间，如果想补救如下
+
+使用 `df -h` 命令显示文件系统的总空间和可用空间信息
+
+使用 `sudo vgdisplay` 命令查看发现 Free PE / Size 还有 剩余空间  
+``` shell
+ sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv # 调整逻辑卷的大小
+
+ sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv # 调整文件系统的大小
+
+ df -h # 再次查看，确认文件系统的总空间大小调整成功
+```
 
