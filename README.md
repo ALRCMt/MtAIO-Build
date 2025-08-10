@@ -454,6 +454,8 @@ docker run -d --name dpanel --restart=always \
 ```
 使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
+### 3.docker部署Resilio Sync
+
 <br />
 
 # 注意事项
