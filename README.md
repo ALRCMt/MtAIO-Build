@@ -613,7 +613,6 @@ Resilio Sync管理地址：Ubuntu网络地址加端口8888
 网上看到的原因基本是intel的网卡所致，怀疑是驱动兼容性问题
 打开PVE控制台
 
-
 ``` shell
 # 先安装工具
 apt -y install ethtool
@@ -634,6 +633,14 @@ iface vmbr0 inet static
         bridge-fd 0
 
 source /etc/network/interfaces.d/*
+```
+问题依旧，网上查了一圈，可能与TCP checksum offload特性有关，解决方案就是关掉checksum offload  
+``` shell
+ethtool -K enp0s25 tx off rx off
+```
+若想永久有效，把这行代码加到/etc/network/if-up.d/ethtool里，然后加上-x权限
+``` shell
+ethtool -K enp0s25 tx off rx off
 ```
 
 ## 03.ssh功能开启问题
