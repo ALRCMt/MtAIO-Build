@@ -49,24 +49,24 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 <br />
 
 # 目录
- 1.  [硬件选择](https://github.com/ALRCMt/MtHMR-Build/tree/main?tab=readme-ov-file#%E7%A1%AC%E4%BB%B6%E9%80%89%E6%8B%A9)
- 2.  其他条件
- 3.  系统配置
-     1. 安装 PVE (Proxmox Virtual Environment)
-     2. 安装 TrueNAS (TrueNAS scale)
-     3. 安装 ubuntu (Ubuntu Server)
-     4. 安装 Windows (Windows10) _不需要_
- 4.  应用配置
-     1. PVE配置
-     2. 旁路由R300A配置
-     3. TrueNAS配置
-     4. Ubuntu配置
- 5.  注意事项
-     1. PVE安装时卡死
-     2. PVE网卡莫名其妙掉线问题
-     3. ssh功能开启问题
-     4. PVE8 概要面板显示CPU温度
-     5. ubuntu空间占用不足
+ 1.  [硬件选择](#%E7%A1%AC%E4%BB%B6%E9%80%89%E6%8B%A9)
+ 2.  [其他条件](#%E5%85%B6%E4%BB%96%E6%9D%A1%E4%BB%B6)
+ 3.  [系统配置](#%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE)
+     1. [安装 PVE (Proxmox Virtual Environment)](#%E5%AE%89%E8%A3%85-pve-proxmox-virtual-environment)
+     2. [安装 TrueNAS (TrueNAS scale)](#%E5%AE%89%E8%A3%85-truenas-truenas-scale)
+     3. [安装 ubuntu (Ubuntu Server)](#%E5%AE%89%E8%A3%85-ubuntu-ubuntu-server)
+     4. [安装 Windows (Windows10) _不需要_](#%E5%AE%89%E8%A3%85-windows-windows10-%E4%B8%8D%E9%9C%80%E8%A6%81)
+ 4.  [应用配置](#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE)
+     1. [PVE配置](#pve%E9%85%8D%E7%BD%AE)
+     2. [旁路由R300A配置](#%E6%97%81%E8%B7%AF%E7%94%B1r300a%E9%85%8D%E7%BD%AE)
+     3. [TrueNAS配置](#truenas%E9%85%8D%E7%BD%AE)
+     4. [Ubuntu配置](#ubuntu%E9%85%8D%E7%BD%AE)
+5 。  [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
+     1. [PVE安装时卡死](#01pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
+     2. [PVE网卡莫名其妙掉线问题](#02pve%E7%BD%91%E5%8D%A1%E8%8E%AB%E5%90%8D%E5%85%B6%E5%A6%99%E6%8E%89%E7%BA%BF%E9%97%AE%E9%A2%98)
+     3. [ssh功能开启问题](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)
+     4. [PVE8 概要面板显示CPU温度](#04pve8-%E6%A6%82%E8%A6%81%E9%9D%A2%E6%9D%BF%E6%98%BE%E7%A4%BAcpu%E6%B8%A9%E5%BA%A6)
+     5. [ubuntu空间占用不足](#05ubuntu%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E4%B8%8D%E8%B6%B3)
 
 # 硬件选择
 
@@ -517,7 +517,7 @@ source /etc/network/interfaces.d/*
 
 
 ``` shell
-# 首先，打开ubuntu控制台，并输入以下命令以启动SSH服务
+# 首先启动SSH服务
 systemctl start ssh
 # 确认SSH服务已启动，输入以下命令查看SSH服务状态
 systemctl status ssh
