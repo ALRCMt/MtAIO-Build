@@ -376,7 +376,57 @@ PVE的默认软件源是他的企业服务地址(enterprise.proxmox.com)，我�
 贝锐蒲公英客户端下载：https://pgy.oray.com/download#visitor
 
 ## TrueNAS配置
-### 1.实现硬盘直通
+### 1.更换apt源
+在`/etc/apt/sources.list.d/debian.sources `中删除原有配置，添加以下
+``` shell
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
+Suites: trixie trixie-updates trixie-backports
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+​
+
+Types: deb-src
+URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
+Suites: trixie trixie-updates trixie-backports
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+​
+
+Types: deb
+URIs: https://security.debian.org/debian-security
+Suites: trixie-security
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+​
+Types: deb-src
+URIs: https://security.debian.org/debian-security
+Suites: trixie-security
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+```
+将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉
+
+将 PVE 的 Ceph 源 `/etc/apt/sources.list.d/ceph.sources` 也替换成清华源
+
+``` shell
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/ceph-squid
+Suites: trixie
+Components: main
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+```
+在 `/etc/apt/sources.list.d` 目录下创建 pve-no-subscription.sources 文件，填上以下内容
+
+``` shell
+Types: deb
+URIs: https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+```
+
+### 2.实现硬盘直通
 教程地址：[pve硬盘直通](https://github.com/firemakergk/aquar-build-helper/blob/master/details/pve%E7%A1%AC%E7%9B%98%E7%9B%B4%E9%80%9A.md)
 > 取消硬盘直通的方法  
 > pve的web界面选择虚拟机的“硬件”，选择指定硬盘，点击“分离”
@@ -633,14 +683,6 @@ iface vmbr0 inet static
         bridge-fd 0
 
 source /etc/network/interfaces.d/*
-```
-问题依旧，网上查了一圈，可能与TCP checksum offload特性有关，解决方案就是关掉checksum offload  
-``` shell
-ethtool -K enp0s25 tx off rx off
-```
-若想永久有效，把这行代码加到/etc/network/if-up.d/ethtool里，然后加上-x权限
-``` shell
-ethtool -K enp0s25 tx off rx off
 ```
 
 ## 03.ssh功能开启问题
