@@ -486,6 +486,7 @@ docker run -d --name dpanel --restart=always \
  -v /var/run/docker.sock:/var/run/docker.sock \
  -v /home/dpanel:/dpanel dpanel/dpanel:latest
 ```
+DPanel管理地址：Ubuntu网络地址加端口8807  
 使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
 > 请注意，因为国内网络问题，请在DPanel内选择**仓库管理**，编辑Docker Hub仓库  
@@ -570,7 +571,15 @@ mount | grep nfs # 最后，检查挂载是否成功取消
 
 <img src="./photo/屏幕截图 2025-08-10 152741.png" alt="" width="500px"/>
 
+在运行配置页面，重启策略选择**未手动停止则重启**  
+最后选择**提交**，容器就创建并运行了
+
+Resilio Sync管理地址：Ubuntu网络地址加端口8888
 <br />
+
+
+
+
 
 # 注意事项
 以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
