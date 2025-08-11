@@ -379,18 +379,19 @@ Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
 ```
-将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉
+> 因为9.x版本BUG太多了，这下面的源可以不换
 
-将 PVE 的 Ceph 源 `/etc/apt/sources.list.d/ceph.sources` 也替换成清华源
+> 将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉  
+> 将 PVE 的 Ceph 源 `/etc/apt/sources.list.d/ceph.sources` 也替换成清华源
 
-``` shell
+ ``` shell
 Types: deb
 URIs: https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/ceph-squid
 Suites: trixie
 Components: main
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ```
-在 `/etc/apt/sources.list.d` 目录下创建 pve-no-subscription.sources 文件，填上以下内容
+> 在 `/etc/apt/sources.list.d` 目录下创建 pve-no-subscription.sources 文件，填上以下内容
 
 ``` shell
 Types: deb
