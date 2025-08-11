@@ -179,7 +179,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 pve的镜像官网下载页面：https://www.proxmox.com/en/downloads/category/iso-images-pve
 
-直接下载最新版本即可
+~~直接下载最新版本即可~~推荐8.x版本，9.x版本BUG太™多了
 
 **2.制作启动盘**
 
@@ -359,8 +359,12 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 ## PVE配置
 ### 1.设置PVE的APT源
 
+**8.x版本设置**
+[设置PVE的APT源](https://github.com/firemakergk/aquar-build-helper/blob/master/details/%E8%AE%BE%E7%BD%AEPVE%E7%9A%84apt%E6%BA%90.md)
+
+**9.x版本设置**
 PVE的默认软件源是他的企业服务地址，我们个人使用需要将其换成国内的软件源  
-在`/etc/apt/sources.list.d/debian.sources `中删除原有配置，添加以下
+在`/etc/apt/sources.list.d/debian.sources `中注释掉原有配置，添加以下
 ``` shell
 Types: deb
 URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
@@ -368,25 +372,12 @@ Suites: trixie trixie-updates trixie-backports
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 Types: deb-src
 URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
 Suites: trixie trixie-updates trixie-backports
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-# 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
-# Types: deb
-# URIs: https://security.debian.org/debian-security
-# Suites: trixie-security
-# Components: main contrib non-free non-free-firmware
-# Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
-# Types: deb-src
-# URIs: https://security.debian.org/debian-security
-# Suites: trixie-security
-# Components: main contrib non-free non-free-firmware
-# Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 ```
 将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉
 
@@ -409,6 +400,7 @@ Components: pve-no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ```
 > 如果修改apt源后报错，[解决方法](#06pve%E6%9B%B4%E6%8D%A2apt%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
+
 
 ### 2.网络唤醒 WOL
 
