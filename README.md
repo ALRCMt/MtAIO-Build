@@ -368,24 +368,24 @@ Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-#Types: deb-src
-#URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
-#Suites: trixie trixie-updates trixie-backports
-#Components: main contrib non-free non-free-firmware
-#Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
-# 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
-#Types: deb
-#URIs: https://security.debian.org/debian-security
-#Suites: trixie-security
-#Components: main contrib non-free non-free-firmware
-#Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
 Types: deb-src
-URIs: https://security.debian.org/debian-security
-Suites: trixie-security
+URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
+Suites: trixie trixie-updates trixie-backports
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+# 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
+# Types: deb
+# URIs: https://security.debian.org/debian-security
+# Suites: trixie-security
+# Components: main contrib non-free non-free-firmware
+# Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+# Types: deb-src
+# URIs: https://security.debian.org/debian-security
+# Suites: trixie-security
+# Components: main contrib non-free non-free-firmware
+# Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 ```
 将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉
 
@@ -407,6 +407,8 @@ Suites: trixie
 Components: pve-no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ```
+> 如果修改apt源后报错，[解决方法](#06pve%E6%9B%B4%E6%8D%A2apt%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
+
 ### 2.网络唤醒 WOL
 
 需要在 BIOS 中开启 WOL 功能，各主板设置方法不同，自己上网查去  
@@ -784,4 +786,11 @@ sensors
 
  df -h # 再次查看，确认文件系统的总空间大小调整成功
 ```
+## 06.PVE更换apt源后报错
 
+在修改`/etc/apt/sources.list.d/debian.sources`后    
+pve的"更新>存储库"页面报错出现 "\u{200b}" 的字样  
+是零宽空格导致，在复制粘贴的过程中产生，自己多检查几遍   
+
+至于报错 _没有启用proxmox ve存储库没有得到任何更新_ 
+忽视，反正也不更新
