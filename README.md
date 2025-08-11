@@ -507,54 +507,22 @@ _确认在用户配置创建的用户勾选了SMB用户选项_
 ## Ubuntu配置
 ### 1.安装docker *最折磨人的一集*
 
-由于国内网络问题（最折磨），docker使用阿里云镜像源安装
+~~由于国内网络问题（最折磨），docker使用阿里云镜像源安装~~  
+目前docker安装的网络问题得到了改善
+
 在ubuntu控制台输入以下命令  
-*粘贴板不互通无法复制？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
+*粘贴板不互通无法复制？请用ssh连接。无法ssh？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
 
 ``` shell
-# 一、准备工作
-# 在开始之前，请确保您的系统是 Ubuntu 版本 22.04。可以使用以下命令来更新系统：
  
-sudo apt update
-sudo apt upgrade -y
- 
-# 二、检查系统版本
-# 为了确认您的 Ubuntu 版本，您可以运行以下命令：
- 
-lsb_release -a
- 
-# 三、安装 Docker
-# 1. 安装必要的依赖
 # 在安装 Docker 之前，我们需要安装一些必要的依赖包。运行以下命令：
- 
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
- 
-# 备份并移除可能已损坏的密钥文件
-sudo mv /usr/share/keyrings/docker-archive-keyring.gpg /usr/share/keyrings/docker-archive-keyring.gpg.bak 2>/dev/null
- 
-# 使用阿里云镜像源下载 GPG 密钥
-curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
- 
-# 检查密钥是否正确导入
-if [ -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
-    echo "GPG 密钥已成功导入"
-else
-    echo "GPG 密钥导入失败，请检查网络连接"
-    exit 1
-fi
- 
-# 设置 Docker 阿里云镜像源
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
- 
-# 更新 apt 包索引并安装 Docker
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
- 
-# 验证 Docker 安装
-sudo docker run hello-world
+
+apt install -y docker.io  docker-compose # 安装docker
+docker version # 验证安装
+
 ```
+现在docker已经安装完毕，但是拉取镜像的网络环境依旧~~十分~~很他妈糟糕，所以先不拉取hello-world测试，等在DPenal中配置加速地址
 
 ### 2.安装docker可视化工具DPanel
 
@@ -562,14 +530,14 @@ DPanel是一款**支持中文**的docker可视化插件
 使用如下命令下载Dpanel lite版镜像  
 官方教程：https://dpanel.cc/install/docker
 ``` shell
-docker pull dpanel/dpanel:lite
+docker pull registry.cn-hangzhou.aliyuncs.com/dpanel/dpanel:lite
 ```
 之后使用如下命令运行Dpanel容器
 ``` shell
 docker run -d --name dpanel --restart=always \
  -p 80:80 -p 443:443 -p 8807:8080 -e APP_NAME=dpanel \
  -v /var/run/docker.sock:/var/run/docker.sock \
- -v /home/dpanel:/dpanel dpanel/dpanel:latest
+ -v /home/dpanel:/dpanel registry.cn-hangzhou.aliyuncs.com/dpanel/dpanel:lite
 ```
 DPanel管理地址：Ubuntu网络地址加端口8807  
 使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
