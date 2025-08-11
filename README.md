@@ -67,6 +67,7 @@ MtHMR 系统是一套整合了多种开源组件的系统集合，本质上是�
      3. [ssh功能开启问题](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)
      4. [PVE8 概要面板显示CPU温度](#04pve8-%E6%A6%82%E8%A6%81%E9%9D%A2%E6%9D%BF%E6%98%BE%E7%A4%BAcpu%E6%B8%A9%E5%BA%A6)
      5. [ubuntu空间占用不足](#05ubuntu%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E4%B8%8D%E8%B6%B3)
+     6. [PVE更换apt源后报错](#06pve%E6%9B%B4%E6%8D%A2apt%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
 
 # 硬件选择
 
