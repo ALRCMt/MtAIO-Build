@@ -194,7 +194,7 @@ Etcher下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#inst
 
 安装流程的官方文档：https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_installer
 
-安装过程中卡死？解决方法：[PVE安装时卡死](#00pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
+安装过程中卡死？解决方法：[PVE安装时卡死](#01pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
 
 **4.验证安装**
 
