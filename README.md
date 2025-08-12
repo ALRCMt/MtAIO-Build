@@ -1,4 +1,4 @@
-body {background-color:#b0c4de;}
+<body bgcolor="#f5f1f6">
 
 
 # MtENP 系统搭建指南
