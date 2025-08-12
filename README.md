@@ -1,7 +1,6 @@
-<body bgcolor="#f5f1f6">
-
 
 # MtENP 系统搭建指南
+<body bgcolor="#f6f4f0">
 本指南作为我自己摸索学习的记录，借鉴了https://github.com/firemakergk/aquar-build-helper 的内容
 # 整体介绍
 
