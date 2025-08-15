@@ -74,8 +74,8 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
         3. SMB共享配置
         4. NFS共享配置
      4. [Ubuntu配置](#ubuntu%E9%85%8D%E7%BD%AE)
-        1. 安装docker
-        2. 安装docker可视化工具DPanel
+        1. 安装Docker
+        2. 安装Docker可视化工具DPanel
         3. Docker镜像仓库加速
         4. 数据卷的创建、挂载、查看、删除
         5. 将TrueNAS存储池挂载到指定目录
@@ -539,10 +539,10 @@ _确认在用户配置创建的用户勾选了SMB用户选项_
 之后操作在Ubuntu系统完成
 
 ## Ubuntu配置
-### 1.安装docker ~~*最折磨人的一集*~~(其实还好)
+### 1.安装Docker ~~*最折磨人的一集*~~(其实还好)
 
-~~由于国内网络问题（最折磨），docker使用阿里云镜像源安装~~  
-目前docker安装的网络问题得到了改善
+~~由于国内网络问题（最折磨），Docker使用阿里云镜像源安装~~  
+目前Docker安装的网络问题得到了改善
 
 在ubuntu控制台输入以下命令  
 *粘贴板不互通无法复制？请用ssh连接。无法ssh？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)*
@@ -556,11 +556,11 @@ apt install -y docker.io  docker-compose # 安装docker
 docker version # 验证安装
 
 ```
-现在docker已经安装完毕，但是拉取镜像的网络环境依旧~~十分~~很他妈糟糕，所以先不拉取hello-world测试，等会教学配置加速地址
+现在Docker已经安装完毕，但是拉取镜像的网络环境依旧~~十分~~很他妈糟糕，所以先不拉取hello-world测试，等会教学配置加速地址
 
-### 2.安装docker可视化工具DPanel
+### 2.安装Docker可视化工具DPanel
 
-DPanel是一款**支持中文**的docker可视化插件  
+DPanel是一款**支持中文**的Docker可视化插件  
 使用如下命令下载Dpanel lite版镜像  
 官方教程：https://dpanel.cc/install/docker
 ``` shell
