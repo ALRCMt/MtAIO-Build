@@ -365,6 +365,7 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 ### 1.设置PVE的APT源
 
 **8.x版本设置**
+PVE的默认软件源是他的企业服务地址，我们个人使用需要将其换成国内的软件源 
 编辑`/etc/apt/sources.list`，替换如下
 ``` shell
 deb https://mirrors.ustc.edu.cn/debian bookworm main contrib
@@ -383,8 +384,7 @@ deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/ceph-quincy bookworm no-
 deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian bookworm pve-no-subscription
 ```
 
-**9.x版本设置**
-PVE的默认软件源是他的企业服务地址，我们个人使用需要将其换成国内的软件源  
+**9.x版本设置** 
 在`/etc/apt/sources.list.d/debian.sources `中注释掉原有配置，添加以下
 ``` shell
 Types: deb
