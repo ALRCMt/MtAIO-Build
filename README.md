@@ -460,6 +460,9 @@ exit 0
 ``` shell
 chmod +x /etc/rc.local
 ```
+目前我用的是蒲公英自带的**向日葵远程开机**
+> 冷知识蒲公英重启后，服务器第一次无开机法远程唤醒
+> 
 ## 旁路由R300A配置
 ### 1.开启路由器的WAN口转发
 打开贝锐蒲公英后台：https://www.pgybox.com/zh/intelligentNetwork/forwardingSettings  
