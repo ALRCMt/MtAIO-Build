@@ -51,6 +51,9 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
 <br />
 
 # 目录
+
+**因为教程有点多，所以学会看目录好不好？**
+
  1.  [硬件选择](#%E7%A1%AC%E4%BB%B6%E9%80%89%E6%8B%A9)
  2.  [其他条件](#%E5%85%B6%E4%BB%96%E6%9D%A1%E4%BB%B6)
  3.  [系统配置](#%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE)
@@ -65,7 +68,7 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
      4. [Ubuntu配置](#ubuntu%E9%85%8D%E7%BD%AE)
  5.  [注意事项](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
      1. [PVE安装时卡死](#01pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
-     2. [_PVE网卡莫名其妙掉线问题 不确定_](#02pve%E7%BD%91%E5%8D%A1%E8%8E%AB%E5%90%8D%E5%85%B6%E5%A6%99%E6%8E%89%E7%BA%BF%E9%97%AE%E9%A2%98)
+     2. [_PVE网卡莫名其妙掉线问题 不确定_](#02pve%E7%BD%91%E5%8D%A1%E8%8E%AB%E5%90%8D%E5%85%B6%E5%A6%99%E6%8E%89%E7%BA%BF%E9%97%AE%E9%A2%98-%E4%B8%8D%E7%A1%AE%E5%AE%9A)
      3. [ssh功能开启问题](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)
      4. [PVE8 概要面板显示CPU温度](#04pve8-%E6%A6%82%E8%A6%81%E9%9D%A2%E6%9D%BF%E6%98%BE%E7%A4%BAcpu%E6%B8%A9%E5%BA%A6)
      5. [ubuntu空间占用不足](#05ubuntu%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E4%B8%8D%E8%B6%B3)
@@ -362,7 +365,23 @@ Win10 iso镜像下载地址：https://www.microsoft.com/zh-cn/software-download/
 ### 1.设置PVE的APT源
 
 **8.x版本设置**
-[设置PVE的APT源](https://github.com/firemakergk/aquar-build-helper/blob/master/details/%E8%AE%BE%E7%BD%AEPVE%E7%9A%84apt%E6%BA%90.md)
+编辑`/etc/apt/sources.list`，替换如下
+``` shell
+deb https://mirrors.ustc.edu.cn/debian bookworm main contrib
+deb https://mirrors.ustc.edu.cn/debian bookworm-updates main contrib
+deb https://mirrors.ustc.edu.cn/debian-security bookworm-security main contrib
+```
+将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉  
+将 PVE 的 Ceph 源`/etc/apt/sources.list.d/ceph.list`，替换如下
+
+``` shell
+deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/ceph-quincy bookworm no-subscription
+```
+
+在`/etc/apt/sources.list.d/`下创建 pve-no-sub.list 文件，填上以下内容
+``` shell
+deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian bookworm pve-no-subscription
+```
 
 **9.x版本设置**
 PVE的默认软件源是他的企业服务地址，我们个人使用需要将其换成国内的软件源  
@@ -379,9 +398,10 @@ URIs: https://mirrors.tuna.tsinghua.edu.cn/debian
 Suites: trixie trixie-updates trixie-backports
 Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
-
 ```
-> 因为9.x版本BUG太多了，这下面的源可以不换
+
+
+> 因为9.x版本BUG太多了，这下面的源换不换随便，我也不清楚
 
 > 将 PVE 的企业源 `/etc/apt/sources.list.d/pve-enterprise.sources` 注释掉  
 > 将 PVE 的 Ceph 源 `/etc/apt/sources.list.d/ceph.sources` 也替换成清华源
@@ -500,7 +520,7 @@ _确认在用户配置创建的用户勾选了SMB用户选项_
 之后操作在Ubuntu系统完成
 
 ## Ubuntu配置
-### 1.安装docker *最折磨人的一集*
+### 1.安装docker ~~*最折磨人的一集*~~(其实还好)
 
 ~~由于国内网络问题（最折磨），docker使用阿里云镜像源安装~~  
 目前docker安装的网络问题得到了改善
@@ -517,7 +537,7 @@ apt install -y docker.io  docker-compose # 安装docker
 docker version # 验证安装
 
 ```
-现在docker已经安装完毕，但是拉取镜像的网络环境依旧~~十分~~很他妈糟糕，所以先不拉取hello-world测试，等在DPenal中配置加速地址
+现在docker已经安装完毕，但是拉取镜像的网络环境依旧~~十分~~很他妈糟糕，所以先不拉取hello-world测试，等会教学配置加速地址
 
 ### 2.安装docker可视化工具DPanel
 
@@ -534,15 +554,36 @@ docker run -d --name dpanel --restart=always \
  -v /var/run/docker.sock:/var/run/docker.sock \
  -v /home/dpanel:/dpanel registry.cn-hangzhou.aliyuncs.com/dpanel/dpanel:lite
 ```
-DPanel管理地址：Ubuntu网络地址加端口8807  
-使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
+DPanel管理地址：Ubuntu网络地址加端口8807 
+快速使用教程：[一款更适合国人的Docker可视化管理工具](https://www.bilibili.com/video/BV1gDc9eaEBv/?spm_id_from=333.337.search-card.all.click&vd_source=2a55d6df129012c2f31dfcad634bc9de)
 
-> 请注意，因为国内网络问题，请在DPanel内选择**仓库管理**，编辑Docker Hub仓库  
-> 添加加速地址，下面有推荐加速地址  
+### 3.Docker镜像仓库加速
 
+**命令行加速**
+
+编辑`/etc/docker/daemon.json`，加入以下内容
+``` shell
+{
+  "registry-mirrors": [
+    "https://docker.1ms.run",
+    "https://docker.m.daocloud.io",
+    "https://registry.cn-hangzhou.aliyuncs.com"
+  ],
+}
+```
+保存并退出
+
+**面板加速**
+
+在DPanel内选择**仓库管理**，编辑Docker Hub仓库  
+添加加速地址，下面有推荐加速地址  
 <img src="./photo/屏幕截图 2025-08-10 151557.png" alt="" width="700px"/>
 
-### 3.数据卷的创建、挂载、查看、删除
+如果你要加速别的仓库，请**添加仓库**，然后配置加速，[可添加仓库](https://dpanel.cc/manual/image-registry)
+
+
+
+### 4.数据卷的创建、挂载、查看、删除
 
 相比较挂载目录，挂载数据卷可以使容器内外文件同步
 如果你偏爱用命令行操作，那么如下  
@@ -569,8 +610,8 @@ docker run -it -v [数据卷名字]:[容器目录] [镜像名称]
 
 <img src="./photo/屏幕截图 2025-08-10 145806.png" alt="" width="300px"/>
 
-### 4.将TrueNAS存储池挂载到指定目录
-> _注意！！！ 配合[NFS共享配置](#4nfs%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE)、[数据卷的创建挂载](#3%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9A%84%E5%88%9B%E5%BB%BA%E6%8C%82%E8%BD%BD%E6%9F%A5%E7%9C%8B%E5%88%A0%E9%99%A4)使用，将存储池挂到数据卷的挂载点_
+### 5.将TrueNAS存储池挂载到指定目录
+> _注意！！！ 配合[NFS共享配置](#4nfs%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE)、[数据卷的创建挂载](#4%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9A%84%E5%88%9B%E5%BB%BA%E6%8C%82%E8%BD%BD%E6%9F%A5%E7%9C%8B%E5%88%A0%E9%99%A4)使用，将存储池挂到数据卷的挂载点_
 ``` shell
 sudo apt update # 更新系统存储库索引
 sudo apt install nfs-common # 安装 NFS 客户端包
@@ -604,7 +645,7 @@ umount -f [mount_point]
 mount | grep nfs # 最后，检查挂载是否成功取消
 ```
 
-### 5.docker部署Resilio Sync
+### 6.Docker部署Resilio Sync
 通过DPanel图形化操作，打开容器列表，创建容器，然后拉取镜像，镜像地址`resilio/sync:latest`
 
 <img src="./photo/屏幕截图 2025-08-10 151320.png" alt="" width="600px"/>
@@ -622,7 +663,16 @@ mount | grep nfs # 最后，检查挂载是否成功取消
 在运行配置页面，重启策略选择**未手动停止则重启**  
 最后选择**提交**，容器就创建并运行了
 
-Resilio Sync管理地址：Ubuntu网络地址加端口8888
+Resilio Sync管理地址：Ubuntu网络地址加端口8888  
+使用教程（更多还是自己摸索吧）：https://zhuanlan.zhihu.com/p/745919095
+
+### 7.Docker部署immich
+
+
+
+
+
+
 <br />
 
 
@@ -658,8 +708,8 @@ Resilio Sync管理地址：Ubuntu网络地址加端口8888
 
 ## 02._PVE网卡莫名其妙掉线问题 不确定_
 
-网上看到的原因基本是intel的网卡所致，怀疑是驱动兼容性问题
-打开PVE控制台
+~~网上看到的原因基本是intel的网卡所致，怀疑是驱动兼容性问题~~
+有可能，不确定
 
 ``` shell
 # 先安装工具
