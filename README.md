@@ -212,7 +212,7 @@ Etcher 下载地址：[https://pve.proxmox.com/pve-docs/pve-admin-guide.html#ins
 
 安装流程的官方文档：https://pve.proxmox.com/pve-docs/pve-admin-guide.html#installation_installer
 
-安装过程中卡死？解决方法：[PVE 安装时卡死](#01pve%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
+安装过程中卡死？解决方法：[PVE 安装时卡死](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
 
 **4.验证安装**
 
@@ -323,7 +323,7 @@ Ubuntu Server 官方文档的安装指引：https://ubuntu.com/server/docs/insta
 安装时有几点需要注意：
 
 1.  Mirror 设置时，Ubuntu 现在默认为国内源地址，如果不是的话请更换成你所在的地区最稳定的地址
-2.  ubuntu 安装默认只占用一半空间，需自己勾选上 _[已经安装完成？补救方法](#05ubuntu%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E4%B8%8D%E8%B6%B3)_
+2.  ubuntu 安装默认只占用一半空间，需自己勾选上 _[已经安装完成？补救方法](#05ubuntu-%E7%A9%BA%E9%97%B4%E4%BB%85%E5%8D%A0%E7%94%A8%E4%B8%80%E5%8D%8A)_
 3.  SSH 设置时勾选 Install SSH Server
 4.  Snaps 页面不要选择任何软件进行安装
 5.  在 Ubuntu 安装开始执行一段时间后（大概几分钟），会开始拉取软件源信息，没必要等待，直接选择"跳过并重启"即可
@@ -437,7 +437,7 @@ Components: pve-no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ```
 
-> 如果修改 apt 源后报错，[解决方法](#06pve%E6%9B%B4%E6%8D%A2apt%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
+> 如果修改 apt 源后报错，[解决方法](#06pve-%E6%9B%B4%E6%8D%A2-apt-%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
 
 ### 2.网络唤醒 WOL
 
@@ -561,7 +561,7 @@ _确认在用户配置创建的用户勾选了 SMB 用户选项_
 目前 Docker 安装的网络问题得到了改善
 
 在 ubuntu 控制台输入以下命令  
-_粘贴板不互通无法复制？请用 ssh 连接。无法 ssh？[解决方案](#03ssh%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)_
+_粘贴板不互通无法复制？请用 ssh 连接。无法 ssh？[解决方案](#03ssh-%E5%8A%9F%E8%83%BD%E5%BC%80%E5%90%AF%E9%97%AE%E9%A2%98)_
 
 ```shell
 
@@ -655,7 +655,7 @@ docker run -it -v [数据卷名字]:[容器目录] [镜像名称]
 
 ### 5.将 TrueNAS 存储池挂载到指定目录
 
-> _注意！！！ 配合[NFS 共享配置](#4nfs%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE)、[数据卷的创建挂载](#4%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9A%84%E5%88%9B%E5%BB%BA%E6%8C%82%E8%BD%BD%E6%9F%A5%E7%9C%8B%E5%88%A0%E9%99%A4)使用，将存储池挂到数据卷的挂载点_
+> _注意！！！ 配合[NFS 共享配置](#4nfs-%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE)、[数据卷的创建挂载](#4%E6%95%B0%E6%8D%AE%E5%8D%B7%E7%9A%84%E5%88%9B%E5%BB%BA%E6%8C%82%E8%BD%BD%E6%9F%A5%E7%9C%8B%E5%88%A0%E9%99%A4)使用，将存储池挂到数据卷的挂载点_
 
 ```shell
 sudo apt update # 更新系统存储库索引
