@@ -625,7 +625,7 @@ DPanel 管理地址：Ubuntu 网络地址加端口 8807
 
 ### 4.数据卷的创建、挂载、查看、删除
 
-相比较挂载目录，挂载数据卷可以使容器内外文件同步
+数据卷可能比较好操作  
 如果你偏爱用命令行操作，那么如下
 
 ```shell
@@ -713,14 +713,55 @@ Resilio Sync 管理地址：Ubuntu 网络地址加端口 8888
 使用教程（更多还是自己摸索吧）：https://zhuanlan.zhihu.com/p/745919095
 
 ### 7.Docker 部署 immich
-通过 Dpanel 图形化操作，使用Docker Compose部署  
+通过 Dpanel 图形化操作，使用Docker Compose部署 
+
+<img src="./photo/屏幕截图 2025-08-16 145611.png" alt="" width="650px"/>
+
 选择Compose，**创建任务**，名称随便  
 下载yaml文件和env文件导入：https://immich.app/docs/install/docker-compose  
-填写环境变量  
-`UPLOAD_LOCATION`：图片存储位置
-`DB_DATA_LOCATION`：数据库文件存储位置
+
+> 因为我要用immich管理相机备份，文件在link.nas数据卷，所以编辑yaml  
+> 修改如下内容，将宿主机路径 /var/lib/docker/volumes/link.nas/_data 挂载到容器内的 /mnt/nas  
+``` shell
+services:
+  immich-server:
+    volumes:
+      - ./immich-data:/usr/src/app/upload  # 保留原始卷
+      - /var/lib/docker/volumes/link.nas/_data:/mnt/nas  # 新增挂载点
+    # 其他配置保持不变...
+
+  immich-microservices:
+    volumes:
+      - ./immich-data:/usr/src/app/upload  # 保留原始卷
+      - /var/lib/docker/volumes/link.nas/_data:/mnt/nas  # 新增挂载点
+    # 其他配置保持不变...
+```
+
+填写环境变量   
+`UPLOAD_LOCATION`：图片存储位置  
+`DB_DATA_LOCATION`：数据库文件存储位置  
 `# TZ`：时区
 
+这是我填的  
+<img src="./photo/屏幕截图 2025-08-16 150025.png" alt="" width="380px"/>  
+<img src="./photo/屏幕截图 2025-08-16 152101.png" alt="" width="200px"/>  
+然后**提交**，点击详情，选择**启动**  
+<img src="./photo/屏幕截图 2025-08-16 153548.png" alt="" width="350px"/>
+
+等待镜像拉取完成，如果出现`运行中(4)`就好了  
+<img src="./photo/屏幕截图 2025-08-16 154355.png" alt="" width="700px"/>
+管理地址：Ubuntu 网络地址加端口 2283  
+管理我的相机备份：添加外部图库，选择路径是之前映射到容器内的路径  
+然后扫描，等待，完成，其他教程自己网上搜去  
+官方文档：https://immich.app/docs/overview/welcome   
+
+> 一定要使四个容器都拉取完成，可能有点慢  
+> 如果出现报错`error response from daemon: get "https://ghcr.io/v2/": not found`  
+> 那就是网络问题，如果你已经配置了加速  
+> 那么，似乎没有更好的办法，**祈祷**吧  
+<img src="./photo/屏幕截图 2025-08-16 161707.png" alt="" width="200px"/>
+
+> 小贴士：上半夜Docker Hub的网络很差
 
 ### 8.Docker 部署 V2rayA
 
