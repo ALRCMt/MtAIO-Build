@@ -88,6 +88,7 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
     4.  [PVE8 概要面板显示 CPU 温度](#04pve8-%E6%A6%82%E8%A6%81%E9%9D%A2%E6%9D%BF%E6%98%BE%E7%A4%BA-cpu-%E6%B8%A9%E5%BA%A6)
     5.  [Ubuntu 空间仅占用一半](#05ubuntu-%E7%A9%BA%E9%97%B4%E4%BB%85%E5%8D%A0%E7%94%A8%E4%B8%80%E5%8D%8A)
     6.  [PVE 更换 apt 源后报错](#06pve-%E6%9B%B4%E6%8D%A2-apt-%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
+    7.  [**C6-State导致PVE崩溃**](#07c6-state%E5%AF%BC%E8%87%B4pve%E5%B4%A9%E6%BA%83)
 
 # 硬件选择
 
@@ -767,6 +768,7 @@ services:
 ### 8.Docker 部署 V2rayA
 
 **请确保你有可用稳定的代理地址**
+
 选择**Compose**，创建任务，yaml如下
 
 ``` shell
@@ -963,3 +965,16 @@ pve 的"更新>存储库"页面报错出现 "\u{200b}" 的字样
 
 至于报错 _没有启用 proxmox ve 存储库没有得到任何更新_
 忽视，反正也不更新
+
+## 07.C6-State导致PVE崩溃
+
+不知道为什么PVE运行一段时间会莫名其妙崩溃，且系统日志没有记录  
+事后调查发现是**AMD Ryzen 1700（初代锐龙/Zen 1）启用了C6 State模式自动节能卡死**  
+参考文献：
+https://blog.csdn.net/qq_33026779/article/details/145600293  
+https://forum.proxmox.com/threads/pve-6-raidz2-freeze-every-day-ryzen-7-1700.66629/  
+
+解决方法：进入主板bios，将**Global C-State Control**设置为disabled
+
+
+
