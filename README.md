@@ -970,7 +970,7 @@ pve 的"更新>存储库"页面报错出现 "\u{200b}" 的字样
 
 不知道为什么PVE运行一段时间会莫名其妙崩溃，且系统日志没有记录  
 事后调查发现是**AMD Ryzen 1700（初代锐龙/Zen 1）启用了C6 State模式自动节能卡死**  
-参考文献：
+参考文献：  
 https://blog.csdn.net/qq_33026779/article/details/145600293  
 https://forum.proxmox.com/threads/pve-6-raidz2-freeze-every-day-ryzen-7-1700.66629/  
 
