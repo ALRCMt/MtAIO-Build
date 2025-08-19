@@ -976,5 +976,20 @@ https://forum.proxmox.com/threads/pve-6-raidz2-freeze-every-day-ryzen-7-1700.666
 
 解决方法：进入主板bios，将**Global C-State Control**设置为disabled
 
+## 08.BIOS时区错误
 
+在设置自动开机的时候，我发现主板BIOS时间与PVE系统时间差了8小时  
+调查原因：  
+PVE默认将BIOS时间视为UTC时间，而上海时间（CST）是UTC+8，因此系统会自动将BIOS时间减去8小时以“对齐”时区
+解决方法：  
+``` shell
+timedatectl set-local-rtc 1
+# 作用：直接设置硬件时钟（RTC）使用本地时间（上海时间），停止UTC转换
+```
+验证命令：
+``` shell
+timedatectl | grep "RTC in local TZ"
+# 若显示yes即生效
+```
 
+## 09.PVE开机显示ZFS导入错误
