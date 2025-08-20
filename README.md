@@ -63,6 +63,7 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
     1.  [PVE 配置](#pve-%E9%85%8D%E7%BD%AE)
         1. [_设置 PVE 的 APT 源_](#1%E8%AE%BE%E7%BD%AE-pve-%E7%9A%84-apt-%E6%BA%90)
         2. [_网络唤醒 WOL_](#2%E7%BD%91%E7%BB%9C%E5%94%A4%E9%86%92-wol)
+        3. [_自动开关机_](#3%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA)
     2.  [旁路由 R300A 配置](#%E6%97%81%E8%B7%AF%E7%94%B1-r300a-%E9%85%8D%E7%BD%AE)
         1. [_开启路由器的 WAN 口转发_](#1%E5%BC%80%E5%90%AF%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84-wan-%E5%8F%A3%E8%BD%AC%E5%8F%91)
         2. [_配置异地组网_](#2%E9%85%8D%E7%BD%AE%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91)
@@ -81,6 +82,8 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
         7. [_Docker 部署 immich_](#7docker-%E9%83%A8%E7%BD%B2-immich)
         8. [_Docker 部署 V2rayA_](#8docker-%E9%83%A8%E7%BD%B2-v2raya)
         9. [_配置代理_](#9%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86)
+        10. [_Docker部署qBittorrent WebUI_](#10docker%E9%83%A8%E7%BD%B2qbittorrent-webui)
+        11. [_Docker部署OpenList_](#11docker%E9%83%A8%E7%BD%B2openlist)
 5.  [**注意事项**](#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
     1.  [PVE 安装时卡死](#01pve-%E5%AE%89%E8%A3%85%E6%97%B6%E5%8D%A1%E6%AD%BB)
     2.  [_PVE 网卡莫名其妙掉线问题 不确定_](#02pve-%E7%BD%91%E5%8D%A1%E8%8E%AB%E5%90%8D%E5%85%B6%E5%A6%99%E6%8E%89%E7%BA%BF%E9%97%AE%E9%A2%98-%E4%B8%8D%E7%A1%AE%E5%AE%9A)
@@ -89,6 +92,9 @@ MtENP 系统是一套整合了多种开源组件的系统集合，本质上是�
     5.  [Ubuntu 空间仅占用一半](#05ubuntu-%E7%A9%BA%E9%97%B4%E4%BB%85%E5%8D%A0%E7%94%A8%E4%B8%80%E5%8D%8A)
     6.  [PVE 更换 apt 源后报错](#06pve-%E6%9B%B4%E6%8D%A2-apt-%E6%BA%90%E5%90%8E%E6%8A%A5%E9%94%99)
     7.  [**C6-State导致PVE崩溃**](#07c6-state%E5%AF%BC%E8%87%B4pve%E5%B4%A9%E6%BA%83)
+    8.  [BIOS时区错误](#08bios%E6%97%B6%E5%8C%BA%E9%94%99%E8%AF%AF)
+    9.  [PVE开机显示ZFS导入错误](#09pve%E5%BC%80%E6%9C%BA%E6%98%BE%E7%A4%BAzfs%E5%AF%BC%E5%85%A5%E9%94%99%E8%AF%AF)
+    10. [PVE降低功耗](#10pve%E9%99%8D%E4%BD%8E%E5%8A%9F%E8%80%97)
 
 # 硬件选择
 
@@ -487,7 +493,21 @@ chmod +x /etc/rc.local
 
 目前我用的是蒲公英自带的**向日葵远程开机**
 
-> 冷知识蒲公英重启后，服务器第一次无开机法远程唤醒
+> 冷知识：蒲公英重启后，服务器第一次无开机法远程唤醒
+> 
+### 3.自动开关机
+自动开机：在主板BIOS设置唤醒事件管理，选择时间，我选择每天9点
+
+自动关机： 
+编辑 root 用户的 crontab
+``` shell
+crontab -e
+```
+添加自动关机任务
+``` shell
+# 每天凌晨2:30执行关机
+30 2 * * * /sbin/shutdown -h +5 "系统将在5分钟后关机进行日常维护，请保存您的工作"
+```
 
 ## 旁路由 R300A 配置
 
@@ -827,6 +847,10 @@ proxychains curl https://www.google.com
 <img src="./photo/屏幕截图 2025-08-17 234722.png" alt="" width="550px"/>
 <br />
 
+### 10.Docker部署qBittorrent WebUI
+### 11.Docker部署OpenList
+
+
 # 注意事项
 
 以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
@@ -993,3 +1017,19 @@ timedatectl | grep "RTC in local TZ"
 ```
 
 ## 09.PVE开机显示ZFS导入错误
+
+在将硬盘直通给TrueNAS后，PVE仍会尝试挂载ZFS，同时访问**可能**会导致**数据损坏**  
+所以应该确保 PVE 宿主机不主动挂载或导入该 ZFS 池，而是由 TrueNAS 虚拟机独占访问  
+
+立即导出 ZFS 池(如果已导入)
+``` shell
+zpool export MtData
+```
+因为我的PVE系统没有使用ZFS作为根文件系统，而是使用**LVM+ext4**  
+所以我直接简单粗暴，完全移除ZFS工具  
+``` shell
+sudo apt purge zfsutils-linux zfs-zed -y
+```
+
+## 10.PVE降低功耗
+
