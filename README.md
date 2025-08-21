@@ -1032,4 +1032,47 @@ sudo apt purge zfsutils-linux zfs-zed -y
 ```
 
 ## 10.PVE降低功耗
+CPU电源策略调整：
+``` shell
+# 安装 cpupower
+apt install linux-cpupower
 
+# 查看支持的 CPU 电源模式
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors
+
+# 查看当前的 CPU 电源模式
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+# CPU实时频率查看
+watch -n 1 cpupower monitor
+
+# 查看当前所有CPU的信息
+cpupower -c all frequency-info
+
+# 设置所有CPU为节能模式
+cpupower -c all frequency-set -g powersave
+
+# 设置所有CPU为性能模式
+cpupower -c all frequency-set -g performance
+```
+	
+|  电源模式  | 解释说明 |
+|  ----  | ----  |
+| performance  | 性能模式，将 CPU 频率固定工作在其支持的较高运行频率上，而不动态调节 |
+| userspace  | 系统将变频策略的决策权交给了用户态应用程序，较为灵活 |
+| powersave  | 省电模式，CPU 会固定工作在其支持的最低运行频率上 |
+| ondemand  | 按需快速动态调整 CPU 频率，没有负载的时候就运行在低频，有负载就高频运行 |
+| conservative  | 与 ondemand 不同，平滑地调整 CPU 频率，频率的升降是渐变式的，稍微缓和一点 |
+| schedutil  | 负载变化回调机制，后面新引入的机制，通过触发 schedutil sugov_update 进行调频动作 |
+``` shell
+
+# 我这里设置CPU电源策略为模式conservative
+cpupower -c all frequency-set -g conservative
+
+```
+设置机械硬盘休眠：
+编辑 /etc/rc.local，在exit 0之前加如下
+``` shell
+hdparm -B 192 /dev/sda   # 设置APM级别为192
+hdparm -S 240 /dev/sda   # 长时间不活动停转（20分钟）
+```
