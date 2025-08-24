@@ -888,7 +888,7 @@ services:
 OpenList是Alist的社区版本，这里选择OpenList
 
 创建容器，拉取`openlistteam/openlist:latest`，绑定端口，把要用的文件夹挂好  
-然后http://ip:5244，登录  
+然后http://ip:5244 ，登录  
 官方文档：https://openlistteam.github.io/docs/zh/
 使用教程网上一大把
 # 注意事项
