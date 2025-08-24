@@ -848,9 +848,49 @@ proxychains curl https://www.google.com
 <br />
 
 ### 10.Docker部署qBittorrent WebUI
-### 11.Docker部署OpenList
+通过Docker Compose部署
 
+编辑yaml文件
+ ``` shell
+version: "3"
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Asia/Shanghai 
+      - UMASK_SET=022
+      - WEBUI_PORT=8085  # Web UI端口
+      - TORRENTING_PORT=26881 # 监听端口，默认6881，修改为20000-65535区间值，下同
+    volumes:
+      - /vol1/1000/docker/qbittorrent/config:/config  # 冒号左侧修改参照上文
+      - /vol2/1000/Download2:/downloads2
+      - /vol3/1000/Download3:/downloads3          #同上
+    ports:
+      - 8085:8085  # 同上面Web UI端口一致
+      - 26881:26881
+      - 26881:26881/udp
+    restart: unless-stopped
+```
+**提交**，**启动**
+管理界面：http://ip:8085
+用户admin，临时密码可以在日志中看见
+> 小提示  
+> 如果遇到管理界面打不开或显示**unauthorized**
+> 请想办法换一个内核的浏览器（自己想办法）  
+> 登录后在设置>WebUI中去掉 _启用跨站请求伪造 (CSRF) 保护_ 兵保存
 
+怎么用自己搜去
+
+### 11.Docker部署OpenList 
+OpenList是Alist的社区版本，这里选择OpenList
+
+创建容器，拉取`openlistteam/openlist:latest`，绑定端口，把要用的文件夹挂好  
+然后http://ip:5244，登录  
+官方文档：https://openlistteam.github.io/docs/zh/
+使用教程网上一大把
 # 注意事项
 
 以下为我实际搭建过程中的一些“小问题”（并不）和小巧思
