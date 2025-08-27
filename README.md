@@ -1,3 +1,19 @@
+
+
+---
+layout: page
+permalink: /MtENP-Build/index.html
+title: 主
+---
+
+
+
+
+
+
+
+
+
 # MtENP系统搭建指南
 
 本指南作为我自己摸索学习的记录，借鉴了https://github.com/firemakergk/aquar-build-helper 的内容
