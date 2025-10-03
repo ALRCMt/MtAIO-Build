@@ -987,6 +987,8 @@ acpitz-acpi-0：主板温度信息
 
 nvme-pci-0200：nvme 固态硬盘温度（如果有安装的话）普通的 sata 固态硬盘不会显示
 
+如果你不是AMD的CPU就继续看这个：[https://www.dgpyy.com/archives/205/](https://www.dgpyy.com/archives/205/)
+
 最气人的是不知道为什么我这里死活不显示 CPU 各核心温度，所以其他我也懒得配置了，平时使用
 
 ```shell
