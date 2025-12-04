@@ -1,5 +1,7 @@
 # MtAIO系统搭建指南
-# 这里是过时指南，最新请看https://ht.tyyz2415.top/jekyll/2025-06-06-About.html
+
+ 这里是过时指南，最新请看  
+https://ht.tyyz2415.top/jekyll/2025-06-06-About.html
 
 本指南作为我自己摸索学习的记录，借鉴了https://github.com/firemakergk/aquar-build-helper 的内容
 
