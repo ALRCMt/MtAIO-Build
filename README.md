@@ -1,5 +1,5 @@
 
-## 因为在`README.md`写全部教程太不方便了，所以接下来完整教程请在我的个人网站查看https://ht.tyyz2415.top/jekyll/2025-06-06-About.html
+## 因为在`README.md`写全部教程太不方便了，所以接下来完整教程请在我的个人网站查看https://ht.tyyz2415.top
 
 <br />
 
