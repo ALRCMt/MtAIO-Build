@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PVE 电源面板</title>
+    <link rel="icon" sizes="128x128" href="/favicon.ico">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4361ee, #f44336);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .server-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .mac-address {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #4361ee;
+            margin-bottom: 15px;
+        }
+        
+        .server-address {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #4361ee;
+            margin-bottom: 15px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        
+        .status-online { 
+            background-color: #4CAF50; 
+            animation: pulse 2s infinite;
+        }
+        
+        .status-offline { 
+            background-color: #f44336; 
+        }
+        
+        .status-checking { 
+            background-color: #ff9800; 
+            animation: pulse 1s infinite;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            color: white;
+            min-width: 180px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-wake { background: linear-gradient(135deg, #4CAF50, #2ecc71); }
+        .btn-shutdown { background: linear-gradient(135deg, #f44336, #e74c3c); }
+        
+        .btn.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .message {
+            margin: 20px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .message.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            border-left: 4px solid #4CAF50;
+            display: block;
+        }
+        
+        .message.error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            border-left: 4px solid #f44336;
+            display: block;
+        }
+        
+        .footer {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+        
+        @media (max-width: 600px) {
+            .card { padding: 25px 20px; }
+            h1 { font-size: 2rem; }
+            .buttons { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>&nbsp;
+</head>
+<body>
+    <div class="card">
+        <h1>PVE 电源控制器</h1>
+        <p class="subtitle">远程管理您的 Proxmox VE 服务器</p>
+        
+        <div class="server-info">
+            <div class="mac-address">MAC: xx:xx:xx:xx:xx:xx</div>
+            <div class="server-address">服务器IP: x.x.x.x</div>
+            <div class="status">
+                <div id="statusDot" class="status-dot status-checking"></div>
+                <span id="statusText">检测中...</span>
+            </div>
+            <div id="lastCheck" style="font-size: 0.9rem; color: #888; margin-top: 10px;">上次检测: --</div>
+        </div>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="buttons">
+            <button id="wakeBtn" class="btn btn-wake">
+                开机
+            </button>
+            <button id="shutdownBtn" class="btn btn-shutdown">
+                关机
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 PVE 控制面板 | 状态每30秒自动检测</p>
+        </div>
+    </div>
+    
+    <script>
+        // 服务器状态检测
+        class ServerStatus {
+            constructor() {
+                this.statusDot = document.getElementById('statusDot');
+                this.statusText = document.getElementById('statusText');
+                this.lastCheck = document.getElementById('lastCheck');
+                this.message = document.getElementById('message');
+                this.checkInterval = 30000;
+                this.init();
+            }
+            
+            init() {
+                this.checkStatus();
+                setInterval(() => this.checkStatus(), this.checkInterval);
+            }
+            
+            updateUI(isOnline) {
+                const now = new Date().toLocaleTimeString('zh-CN');
+                this.lastCheck.textContent = `上次检测: ${now}`;
+                
+                this.statusDot.className = 'status-dot';
+                if (isOnline === 'checking') {
+                    this.statusDot.classList.add('status-checking');
+                    this.statusText.textContent = '检测中...';
+                } else if (isOnline) {
+                    this.statusDot.classList.add('status-online');
+                    this.statusText.textContent = '在线';
+                    document.getElementById('wakeBtn').classList.remove('pulse');
+                    document.getElementById('shutdownBtn').classList.add('pulse');
+                } else {
+                    this.statusDot.classList.add('status-offline');
+                    this.statusText.textContent = '离线';
+                    document.getElementById('shutdownBtn').classList.remove('pulse');
+                    document.getElementById('wakeBtn').classList.add('pulse');
+                }
+            }
+            
+            async checkStatus() {
+                this.updateUI('checking');
+                
+                try {
+                    const response = await fetch('/cgi-bin/ping_server.sh?' + Date.now());
+                    
+                    if (response.ok) {
+                        const text = await response.text();
+                        console.log('服务器状态响应:', text);
+                        
+                        if (text.includes('online') || text.includes('1') || text.trim() === 'online') {
+                            this.updateUI(true);
+                        } else if (text.includes('offline') || text.includes('0') || text.trim() === 'offline') {
+                            this.updateUI(false);
+                        } else {
+                            this.updateUI(false);
+                        }
+                    } else {
+                        console.log('CGI脚本响应失败:', response.status);
+                        this.updateUI(false);
+                    }
+                    
+                } catch (error) {
+                    console.log('状态检测异常:', error);
+                    this.updateUI(false);
+                }
+            }
+            
+            showMessage(text, isSuccess) {
+                this.message.textContent = text;
+                this.message.className = `message ${isSuccess ? 'success' : 'error'}`;
+                this.message.style.display = 'block';
+                setTimeout(() => this.message.style.display = 'none', 5000);
+            }
+        }
+        
+        // 初始化
+        const server = new ServerStatus();
+        
+        // 按钮功能
+        function setupButton(id, endpoint, confirmMsg, successMsg) {
+            const btn = document.getElementById(id);
+            btn.addEventListener('click', async () => {
+                if (btn.classList.contains('disabled')) return;
+                if (!confirm(confirmMsg)) return;
+                
+                btn.classList.add('disabled');
+                
+                try {
+                    const response = await fetch(endpoint);
+                    const text = await response.text();
+                    console.log('按钮响应:', text);
+                    
+                    server.showMessage(successMsg, true);
+                    setTimeout(() => server.checkStatus(), 5000);
+                } catch {
+                    server.showMessage('网络错误', false);
+                }
+                
+                setTimeout(() => btn.classList.remove('disabled'), 2000);
+            });
+        }
+        
+        // 设置按钮
+        setupButton(
+            'wakeBtn',
+            '/cgi-bin/pve_wake.sh',
+            '确定要唤醒 PVE 主机吗？',
+            '开机指令已发送'
+        );
+        
+        setupButton(
+            'shutdownBtn',
+            '/cgi-bin/pve_shutdown.sh',
+            '确定要远程关机吗？',
+            '关机指令已发送'
+        );
+        
+        // 测试CGI脚本是否正常工作
+        console.log('测试CGI脚本访问...');
+        fetch('/cgi-bin/ping_server.sh')
+            .then(response => {
+                console.log('ping_server.sh 状态:', response.status);
+                return response.text();
+            })
+            .then(text => {
+                console.log('ping_server.sh 响应:', text);
+            })
+            .catch(error => {
+                console.log('ping_server.sh 访问失败:', error);
+            });
+    </script>
+</body>
+</html>
