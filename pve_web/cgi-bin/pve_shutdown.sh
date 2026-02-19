@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 PVE_HOST="x.x.x.x"
 
 echo "正在向 PVE 发送关机指令..."
