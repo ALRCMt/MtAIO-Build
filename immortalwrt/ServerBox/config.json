@@ -25,7 +25,7 @@
             "type": "ios",
             "name": "ServerBox",
             "iface": {
-                "token": "a4f3be8b7176b2c79c3aff39912b345f797ad546e7474630cea8ed3325fea8df",
+                "token": "{YOUR_TAKEN}",
                 "title": "{{name}} 提示",
                 "content": "{{msg}}",
                 "body_regex": ".*",
