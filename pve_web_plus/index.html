@@ -126,7 +126,7 @@
         }
         
         .btn-wake { background: linear-gradient(135deg, #4CAF50, #2ecc71); }
-        .btn-shutdown { background: linear-gradient(135deg, #f44336, #e74c3c); }
+        .btn-shutdown { background: linear-gradient(135deg, #D32F2F, #B71C1C); }
         .btn-switch-win { background: linear-gradient(135deg, #2196F3, #1976D2); }
         .btn-win-shutdown { background: linear-gradient(135deg, #D32F2F, #B71C1C); }
         
@@ -324,9 +324,6 @@
         <div class="buttons">
             <button id="switchWinBtn" class="btn btn-switch-win btn-disabled">
                 切换WIN
-            </button>
-            <button id="winShutdownBtn" class="btn btn-win-shutdown">
-                WIN关机
             </button>
         </div>
         
@@ -544,7 +541,7 @@
         
         setupButton(
             'shutdownBtn',
-            '/cgi-bin/pve_shutdown.sh',
+            '/cgi-bin/multi_shutdown.sh',
             '确认关机',
             '确定要远程关机？',
             '关机指令已发送'
@@ -559,14 +556,7 @@
             '切换指令已发送'
         );
         
-        // 设置WIN关机按钮
-        setupButton(
-            'winShutdownBtn',
-            '/cgi-bin/winshutdown.sh',
-            '确认关机',
-            '确定要远程关机？',
-            '关机指令已发送'
-        );
+        // 已移除独立的 WIN 关机按钮，使用 `multi_shutdown.sh` 自动判断目标系统
     </script>
 </body>
 </html>
