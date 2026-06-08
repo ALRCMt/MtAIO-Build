@@ -9,17 +9,17 @@ from openai import OpenAI
 # ========== 配置区 ==========
 IMMICH_URL = "http://192.168.6.165:2283/api"
 IMMICH_API_KEY = "Immich的API_KEY"
-MODEL_NAME = "gemini-3.1-flash-lite-preview"
+MODEL_NAME = "AI模型名称"
 
 client = OpenAI(
     api_key="AI API的KEY",
-    base_url="API接口",
+    base_url="AI接口地址",
     default_headers={
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
         "Accept": "application/json",
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Origin": "https://api.chatanywhere.tech",
-        "Referer": "https://api.chatanywhere.tech/",
+        "Origin": "AI接口地址", # 此处用于防止CF拦截
+        "Referer": "AI接口地址", # 同上
     }
 )
 
