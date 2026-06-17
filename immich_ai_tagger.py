@@ -28,6 +28,38 @@ headers = {
     "Accept": "application/json"
 }
 
+# ========== 清理孤立XMP文件 ==========
+
+IMMICH_UPLOAD_PATH = "/mnt/nas"  # 修改为实际路径
+DRY_RUN = True  # True=只显示不删除, False=实际删除
+
+def cleanup_orphan_xmps():
+    """查找并删除孤立的XMP文件（检查对应的图片文件是否存在）"""
+    print("\n检查孤立XMP文件...")
+    
+    orphan_xmps = []
+    for root, dirs, files in os.walk(IMMICH_UPLOAD_PATH):
+        for file in files:
+            if file.lower().endswith('.xmp'):
+                # IMG_1868.JPG.xmp -> IMG_1868.JPG
+                image_file = file[:-4]  # 去掉 .xmp
+                image_path = os.path.join(root, image_file)
+                if not os.path.exists(image_path):
+                    orphan_xmps.append(os.path.join(root, file))
+    
+    # 处理孤立文件
+    if orphan_xmps:
+        print(f"发现 {len(orphan_xmps)} 个孤立XMP文件:")
+        for xmp_path in orphan_xmps:
+            print(f"  {xmp_path}")
+            if not DRY_RUN:
+                os.remove(xmp_path)
+                print(f"    已删除")
+        if DRY_RUN:
+            print("安全模式：未实际删除，将DRY_RUN=False启用删除")
+    else:
+        print("没有发现孤立XMP文件")
+
 def get_asset_detail(asset_id):
     url = f"{IMMICH_URL}/assets/{asset_id}"
     resp = requests.get(url, headers=headers)
@@ -135,6 +167,10 @@ def update_description(asset_id, description):
     resp.raise_for_status()
 
 # ========== 主流程 ==========
+def main():
+    # 清理孤立XMP文件
+    cleanup_orphan_xmps()
+    
 page = 1
 total = 0
 
