@@ -81,7 +81,7 @@
             border-radius: 50%;
         }
         
-        。status-online { 
+        .status-online { 
             background-color: #4CAF50; 
             animation: pulse 2s infinite;
         }
@@ -353,7 +353,7 @@
                 });
                 
                 // 点击遮罩层关闭
-                this。overlay.addEventListener('click', (e) => {
+                this.overlay.addEventListener('click', (e) => {
                     if (e.target === this.overlay) {
                         if (this.promiseReject) {
                             this.promiseReject(false);
@@ -396,7 +396,7 @@
                 this.statusDot = document.getElementById('statusDot');
                 this.statusText = document.getElementById('statusText');
                 this.lastCheck = document.getElementById('lastCheck');
-                this。message = document.getElementById('message');
+                thismessage = document.getElementById('message');
                 this.checkInterval = 30000;
                 this.init();
             }

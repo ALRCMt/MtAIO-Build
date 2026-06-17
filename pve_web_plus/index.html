@@ -323,7 +323,7 @@
         
         <div class="buttons">
             <button id="switchWinBtn" class="btn btn-switch-win btn-disabled">
-                切换WIN
+                切换
             </button>
         </div>
         
@@ -429,16 +429,12 @@
                 if (mode === 'checking') {
                     this.statusDot.classList.add('status-checking');
                     this.statusText.textContent = '检测中...';
+                    document.getElementById('switchWinBtn').classList.add('btn-disabled');
                 } else if (mode === 'online') {
                     this.statusDot.classList.add('status-online');
                     this.statusText.textContent = `在线 ${text}模式`;
                     document.getElementById('wakeBtn').classList.remove('pulse');
-                    // 只有PVE模式时才启用切换WIN按钮
-                    if (text === 'PVE') {
-                        document.getElementById('switchWinBtn').classList.remove('btn-disabled');
-                    } else {
-                        document.getElementById('switchWinBtn').classList.add('btn-disabled');
-                    }
+                    document.getElementById('switchWinBtn').classList.remove('btn-disabled');
                 } else if (mode === 'offline') {
                     this.statusDot.classList.add('status-offline');
                     this.statusText.textContent = '离线';
@@ -547,16 +543,15 @@
             '关机指令已发送'
         );
         
-        // 设置切换WIN按钮
+        // 设置切换按钮
         setupButton(
             'switchWinBtn',
             '/cgi-bin/switch.sh',
             '确认切换',
-            '确定要切换到 Windows 模式？',
+            '确定要切换服务器系统？',
             '切换指令已发送'
         );
         
-        // 已移除独立的 WIN 关机按钮，使用 `multi_shutdown.sh` 自动判断目标系统
     </script>
 </body>
 </html>
