@@ -25,11 +25,8 @@ MtAIO 系统是一套整合了多种开源组件的系统集合，本质上是�
 
 [@科技宅小明](https://space.bilibili.com/5626102?spm_id_from=333.1387.favlist.content.click)
 
-如果你有疑问，或者发现了我的错误，请联系我
-
-[![QQ](https://img.shields.io/badge/QQ-ALRCMt-white.svg?style=flat-square)](https://qm.qq.com/q/4uVkK9nRPW?personal_qrcode_source=3)
-[![邮箱](https://img.shields.io/badge/邮箱-b122330417@163.com-blue.svg?style=flat-square)](mailto:b122330417@163.com)
-
+如果你有疑问，或者发现了我的错误，请联系我  
+个人邮箱：<alrcmt86@outlook.com>
 
 ## 核心功能
 
